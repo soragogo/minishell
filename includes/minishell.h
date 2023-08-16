@@ -11,5 +11,5 @@
 #include <readline/history.h>
 
 int ft_system(char *command, int *status);
-
+int ft_chdir(char *command_buf);
 #endif

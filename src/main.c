@@ -9,7 +9,12 @@ int main()
 	{
 		command_buf = readline("minishell> ");
 		add_history(command_buf);
-		ft_system(command_buf, &status);
+		if (strncmp(command_buf, "cd", 2) == 0 && (command_buf[2] == '\0' || command_buf[2] == ' '))
+			status = ft_chdir(command_buf);
+		else if(strncmp(command_buf, "echo $?", 8) == 0)
+			printf("%d\n", status);
+		else
+			ft_system(command_buf, &status);
 		free(command_buf);
 	}
 	return (0);

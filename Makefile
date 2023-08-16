@@ -5,7 +5,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iincludes
 
 SRC = src/main.c \
-      src/ft_system.c
+      src/ft_system.c \
+      src/ft_chdir.c
 
 OBJS = $(SRC:.c=.o)
 OBJS := $(OBJS:src/%=obj/%)
