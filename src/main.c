@@ -4,7 +4,8 @@ int main()
 {
 	char *command_buf;
 	int status;
-
+	
+	ft_signals();
 	while (1)
 	{
 		command_buf = readline("minishell> ");

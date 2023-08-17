@@ -7,8 +7,8 @@ CFLAGS = -Iincludes
 
 SRC = src/main.c \
       src/ft_system.c \
-      src/ft_chdir.c
-
+      src/ft_chdir.c \
+      src/signal_handler.c
 OBJS = $(SRC:.c=.o)
 OBJS := $(OBJS:src/%=obj/%)
 
