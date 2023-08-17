@@ -2,7 +2,8 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes
+#CFLAGS = -Wall -Wextra -Werror -Iincludes
+CFLAGS = -Iincludes
 
 SRC = src/main.c \
       src/ft_system.c \

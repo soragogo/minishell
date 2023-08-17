@@ -26,5 +26,5 @@ int ft_system(char *command, int *status)
 	}
 	else
 		return (-1);
-	return WIFEXITED(status);
+	return WIFEXITED(*status);
 }
