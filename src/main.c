@@ -9,6 +9,8 @@ int main()
 	while (1)
 	{
 		command_buf = readline("minishell> ");
+		if (!command_buf)
+			return (0);
 		add_history(command_buf);
 		if (strncmp(command_buf, "cd", 2) == 0 && (command_buf[2] == '\0' || command_buf[2] == ' '))
 			status = ft_chdir(command_buf);
