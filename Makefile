@@ -2,24 +2,26 @@ NAME = minishell
 
 CC = cc
 
-#CFLAGS = -Wall -Wextra -Werror -Iincludes
-CFLAGS = -Iincludes
+CFLAGS = -Wall -Wextra -Werror -Iincludes 
 
 SRC = src/main.c \
       src/ft_system.c \
       src/ft_chdir.c \
-      src/signal_handler.c
+	  src/signal_handler.c
+
 OBJS = $(SRC:.c=.o)
 OBJS := $(OBJS:src/%=obj/%)
-
+RLDIR=`brew --prefix readline`
 
 all:$(NAME)
 
 $(NAME):$(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -lreadline
-
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -lreadline -L $(RLDIR)/lib 
+	
 obj/%.o: src/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(RLDIR)/include
+
+
 
 $(OBJS):$(SRC)
 

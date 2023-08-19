@@ -13,4 +13,5 @@
 int ft_system(char *command, int *status);
 int ft_chdir(char *command_buf);
 void ft_signals(void);
+void waitline();
 #endif
