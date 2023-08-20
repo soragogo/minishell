@@ -6,7 +6,8 @@ void handler(int signum)
 {
 		if (signum == SIGQUIT)
 		{
-				return ;
+			rl_redisplay();
+			return;
 		}
 		if (signum == SIGINT)
 		{

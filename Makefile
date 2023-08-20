@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes 
+CFLAGS = -Wall -Wextra -Werror -Iincludes
 
 SRC = src/main.c \
       src/ft_system.c \
@@ -11,25 +11,24 @@ SRC = src/main.c \
 
 OBJS = $(SRC:.c=.o)
 OBJS := $(OBJS:src/%=obj/%)
-RLDIR=`brew --prefix readline`
+RLDIR = $(shell brew --prefix readline)
 
-all:$(NAME)
+all: $(NAME)
 
-$(NAME):$(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -lreadline -L $(RLDIR)/lib 
-	
+$(NAME): $(OBJS)
+	@echo "set echo-control-characters off" > ~/.inputrc
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -lreadline -L $(RLDIR)/lib
+
 obj/%.o: src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I $(RLDIR)/include
 
-
-
-$(OBJS):$(SRC)
+$(OBJS): $(SRC)
 
 clean:
 	rm -rf $(OBJS)
 
-fclean:clean
+fclean: clean
 	rm -rf $(NAME)
 
-re:fclean
-	make all
+re: fclean all
+
