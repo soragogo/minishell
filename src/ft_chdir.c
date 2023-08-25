@@ -10,7 +10,7 @@ int ft_chdir(char *command_buf)
 	}
 	else
 	{
-		char *dir_path = strchr(command_buf, ' ');
+		char *dir_path = ft_strchr(command_buf, ' ');
 		if (dir_path)
 		{
 			dir_path++;
