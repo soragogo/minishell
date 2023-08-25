@@ -10,6 +10,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
+#include "../libft/libft.h"
 int ft_system(char *command, int *status);
 int ft_chdir(char *command_buf);
 void ft_signals(void);
