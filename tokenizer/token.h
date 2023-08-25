@@ -24,6 +24,7 @@ typedef struct s_list
 {
 	char *arg;
 	TYPE type;
+    int is_freed;
 } t_token;
 
 t_token *ft_tokenizer(char *command);
