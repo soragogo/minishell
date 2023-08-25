@@ -1,12 +1,3 @@
-y
-#Chdirの実装
-
-
-Emu
-#Ctrl+Cの処理
-#heredocの実装
-
-
 ファイルと関数名説明
 【tokenizer.h】
 tokenizer関数のための構造体定義とenumが要チェッ。
