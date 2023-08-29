@@ -203,41 +203,41 @@ char *map_get(t_env **env_head, char *name)
 }
 
 
-#include <stdio.h>
-// テスト用の main 関数
-int main() {
-    t_env *map = map_new();
-    envmap_init(&map);//clear
+// #include <stdio.h>
+// // テスト用の main 関数
+// int main() {
+//     t_env *map = map_new();
+//     envmap_init(&map);
 	
-	printf("1\n");
-    // マップに環境変数を追加するテスト
-    set_env(&map, "TEST_ENV", "Hello, World!");
-	printf("2\n");
-    set_env(&map, "ANOTHER_ENV", "12345");//clear
-	printf("3\n");
+// 	printf("1\n");
+//     // マップに環境変数を追加するテスト
+//     set_env(&map, "TEST_ENV", "Hello, World!");
+// 	printf("2\n");
+//     set_env(&map, "ANOTHER_ENV", "12345");
+// 	printf("3\n");
 
 
-    // マップから環境変数の値を取得するテスト
-    printf("TEST_ENV: %s\n", map_get(&map, "TEST_ENV"));
-	printf("4\n");
-    printf("ANOTHER_ENV: %s\n", map_get(&map, "ANOTHER_ENV"));//clear
-	printf("5\n");
+//     // マップから環境変数の値を取得するテスト
+//     printf("TEST_ENV: %s\n", map_get(&map, "TEST_ENV"));
+// 	printf("4\n");
+//     printf("ANOTHER_ENV: %s\n", map_get(&map, "ANOTHER_ENV"));
+// 	printf("5\n");
 
-    // マップから環境変数を削除するテスト
-    env_unset(&map, "ANOTHER_ENV");
-	printf("6\n");
+//     // マップから環境変数を削除するテスト
+//     env_unset(&map, "ANOTHER_ENV");
+// 	printf("6\n");
 	
-    printf("ANOTHER_ENV after unset: %s\n", map_get(&map, "ANOTHER_ENV"));
-	printf("7\n");
+//     printf("ANOTHER_ENV after unset: %s\n", map_get(&map, "ANOTHER_ENV"));
+// 	printf("7\n");
 
-	while (map)
-	{
-		printf("name: %s\nvalue: %s\n", map->name, map->value);
-		map = map->next;
-	}
+// 	while (map)
+// 	{
+// 		printf("name: %s\nvalue: %s\n", map->name, map->value);
+// 		map = map->next;
+// 	}
 
-    // メモリの解放
-    // ここで実際のコードでは map やその中身の要素を適切に解放する必要があります
+//     // メモリの解放
+//     // ここで実際のコードでは map やその中身の要素を適切に解放する必要があります
 
-    return 0;
-}
+//     return 0;
+// }
