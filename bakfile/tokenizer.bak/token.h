@@ -18,14 +18,13 @@ typedef enum
 	EXPANDABLE_QUOTED,
 	PIPE,
 	EXPANDABLE,
-	REDIRECTIONS,
 } TYPE;
 
-typedef struct s_list_token
+typedef struct s_list
 {
 	char *arg;
 	TYPE type;
-	int is_freed;
+    int is_freed;
 } t_token;
 
 t_token *ft_tokenizer(char *command);

@@ -2,27 +2,39 @@
 
 void fatal_error(const char *msg) __attribute__((noreturn));
 
-void fatal_error()
+void fatal_error(const char *msg)
 {
-	
+	perror(msg);
 	exit(1);
 }
 
-int ft_system(char *command, int *status)
+int ft_system(t_token *tokens, int *status)
 {
 	pid_t pid;
-	char *commands[] = {"bash", "-c", command, NULL};
-//	char *commands[] = {"/bin/bash", "-c", "cat <<a", NULL};
+	//char *commands[] = {"bash", "-c", command, NULL};
+	//	char *commands[] = {"/bin/bash", "-c", "cat <<a", NULL};
 	extern char **environ;
 
 	pid = fork();
+	char *token_twod[10000];
+	int i = 0;
+
+	search_path(tokens);
+	while (tokens[i].arg != NULL)
+	{
+		token_twod[i] = tokens[i].arg;
+		i++;
+	}
+	token_twod[i] = NULL;
+//	for (int i = 0; token_twod[i] != NULL; i++)
+//		printf("token_twod[%d]: [%s]\n",i,  token_twod[i]);
 
 	if (pid < 0)
 		fatal_error("fork");
 	if (pid == 0)
 	{
-		execve("/bin/bash", commands, environ);
-		fatal_error("execve");
+		execve(token_twod[0], token_twod, environ);
+		fatal_error("minishell");
 	}
 	else if (pid > 0)
 	{
