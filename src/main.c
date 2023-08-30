@@ -1,31 +1,58 @@
 #include "../includes/minishell.h"
 
+void free_before_closing(t_token *tokens, char *command_buf)
+{
+	for (int i = 0; tokens[i].arg != NULL; i++)
+		{
+			if (tokens[i].is_freed == 0)
+				free(tokens[i].arg);
+		}
+		free(tokens);
+		free(command_buf);
+}
 
+char *ft_readline()
+{
+	char *command_buf;
+	command_buf = readline("minishell> ");
+	if (command_buf)
+		add_history(command_buf);
+	return (command_buf);
+
+}
 
 
 int main()
 {
 	char *command_buf;
 	int status;
-	t_env *map = map_new();
-    envmap_init(&map);
+	t_token *tokens;
 	while (1)
 	{
 		ft_signals();
-
-		command_buf = readline("minishell> ");
+		command_buf = ft_readline();
 		if (!command_buf)
 			break ;
-		else
-			add_history(command_buf);
-		if (strncmp(command_buf, "cd", 2) == 0 && (command_buf[2] == '\0' || command_buf[2] == ' '))
-			status = ft_chdir(&command_buf, &map);
-		else if(strncmp(command_buf, "echo $?", 8) == 0)
+		if (*command_buf == '\0')
+			continue ;
+		tokens = ft_tokenizer(command_buf);
+//		for (int i = 0; tokens[i].arg != NULL; i++)
+//		{
+//			printf("%s\n", tokens[i].arg);
+//		}
+		if (ft_strncmp(command_buf, "cd", 2) == 0 && (command_buf[2] == '\0' || command_buf[2] == ' '))
+			status = ft_chdir(command_buf);
+
+		else if (ft_strncmp(command_buf, "echo $?", 8) == 0)
+		{
 			printf("%d\n", status);
+			status = 0;
+		}
 		else
-			ft_system(command_buf, &status);
-		free(command_buf);
-	}	return (0);
+			ft_system(tokens, &status);
+		free_before_closing(tokens, command_buf);
+	}
+	return (0);
 }
 /*
 __attribute__((destructor)) static void destructor()

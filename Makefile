@@ -3,45 +3,24 @@
 # CC = cc
 # CFLAGS = -Wall -Wextra -Werror -Iincludes
 
-# SRC = src/main.c \
-#       src/ft_system.c \
-#       src/ft_chdir.c \
-# 	  src/signal_handler.c
-
-# OBJS = $(SRC:.c=.o)
-# OBJS := $(OBJS:src/%=obj/%)
-# RLDIR = $(shell brew --prefix readline)
-
-# LIBFTDIR = libft
-# LIBFT = $(LIBFTDIR)/libft.a
-# LIBFT_INCLUDE = -I$(LIBFTDIR)
-# LIBFT_LINK = -L$(LIBFTDIR) -lft 
+SRC = src/main.c \
+      src/ft_system.c \
+      src/ft_chdir.c \
+	  src/signal_handler.c \
+	  exec_filename/search_path.c
 
 
-# all: $(NAME)
 
-# $(NAME): $(OBJS)
-# 	@echo "set echo-control-characters off" > ~/.inputrc
-# 	@make -C $(LIBFTDIR)
-# 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_LINK) -lreadline -L $(RLDIR)/lib
+LIBFTDIR = libft
+LIBFT = $(LIBFTDIR)/libft.a
+LIBFT_INCLUDE = -I$(LIBFTDIR)
+LIBFT_LINK = -L$(LIBFTDIR) -lft
 
-# obj/%.o: src/%.c
-# 	$(CC) $(CFLAGS) -c $< -o $@ -I $(RLDIR)/include $(LIBFT_INCLUDE)
+TOKENDIR = tokenizer
+TOKEN = $(TOKENDIR)/libtokenizer.a
+TOKEN_INCLUDE = -I$(TOKENDIR)
+TOKEN_LINK = -L$(TOKENDIR) -ltokenizer
 
-# $(OBJS): $(SRC)
-
-# $(LIBFT):
-# 	make -C $(LIBFTDIR)
-
-# clean:
-# 	rm -rf $(OBJS)
-# 	make -C $(LIBFTDIR) clean
-
-# fclean: clean
-# 	rm -rf $(NAME)
-# 	make -C $(LIBFTDIR) fclean
-
-# re: fclean all
 
 
 NAME	=	minishell
@@ -75,25 +54,33 @@ CFLAGS	=	-Wall -Wextra -Werror -I./readline
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
-	@ $(CC) $(CFLAGS) -o minishell $(OBJS) -lreadline
+$(NAME): $(OBJS)
+	@echo "set echo-control-characters off" > ~/.inputrc
+	@make -C $(LIBFTDIR)
+	@make -C $(TOKENDIR)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_LINK) $(TOKEN_LINK) -lreadline -L $(RLDIR)/lib
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@ mkdir -p $(OBJ_DIR)
-	@ $(CC) $(CFLAGS) -c -o $@ $<
+obj/%.o: src/%.c
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(RLDIR)/include $(LIBFT_INCLUDE) $(TOKEN_INCLUDE)
+
 
 $(OBJ_DIR)/%.o: $(TOKENIZER_DIR)/%.c
 	@ $(CC) $(CFLAGS) -c -o $@ $<
 
 $(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
+	make -C $(LIBFTDIR)
+$(TOKEN):
+	make -C $(TOKENDIR)
 
 clean:
-	@ rm -rf $(OBJ_DIR)
-	@ make -C $(LIBFT_DIR) clean
+	rm -rf $(OBJS)
+	make -C $(LIBFTDIR) clean
+	make -C $(TOKENDIR) clean
 
 fclean: clean
-	@ rm -rf $(NAME)
-	@ make -C $(LIBFT_DIR) fclean
+	rm -rf $(NAME)
+	make -C $(LIBFTDIR) fclean
+	make -C $(TOKENDIR) fclean
+
 
 re: fclean all

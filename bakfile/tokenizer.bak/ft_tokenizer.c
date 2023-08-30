@@ -1,15 +1,6 @@
 #include "token.h"
 #include <stdbool.h>
 
-char *tokenize_error(char *command)
-{
-	char *tmp = command;
-	while (*tmp)
-		tmp++;
-	printf("tokenize_error\n");
-	return (tmp);
-}
-
 char *quoted_arg(int *num_of_args, char *command, char quote)
 {
 	char *tmp;
@@ -25,7 +16,7 @@ char *quoted_arg(int *num_of_args, char *command, char quote)
 
 bool is_separator(char c)
 {
-	return (c && c != ' ' && c != '\'' && c != '\"' && c != '|' && c != '<' && c != '>');
+	return (c && c != ' ' && c != '\'' && c != '\"' && c != '|');
 }
 
 void count_tokens(char *command, int *num_of_args)
@@ -40,13 +31,6 @@ void count_tokens(char *command, int *num_of_args)
 		{
 			*num_of_args += 1;
 			command++;
-		}
-		else if (*command == '<' || *command == '>')
-		{
-			*num_of_args += 1;
-			command++;
-			if ((*(command - 1) == '<' && *command == '<') || (*(command - 1) == '>' && *command == '>'))
-				command++;
 		}
 		else
 		{
@@ -74,13 +58,8 @@ char *tokenize_nonexpandable(t_token *tokens, char *command)
 		i++;
 	tokens->arg = malloc(sizeof(char) * (i + 1));
 	i = 0;
-	while (*tmp != 39)
+	while (*tmp && *tmp != 39)
 	{
-		if (*tmp == '\0')
-		{
-			command = tokenize_error(command);
-			break;
-		}
 		tokens->arg[i] = *tmp;
 		tmp++;
 		i++;
@@ -103,13 +82,8 @@ char *tokenize_quoted(t_token *tokens, char *command)
 		i++;
 	tokens->arg = malloc(sizeof(char) * (i + 1));
 	i = 0;
-	while (*tmp != 34)
+	while (*tmp && *tmp != 34)
 	{
-		if (*tmp == '\0')
-		{
-			command = tokenize_error(command);
-			break;
-		}
 		tokens->arg[i] = *tmp;
 		tmp++;
 		i++;
@@ -132,32 +106,6 @@ char *tokenize_pipe(t_token *tokens, char *command)
 	return (tmp);
 }
 
-char *tokenize_redirections(t_token *tokens, char *command)
-{
-	char *tmp;
-	char type_detail;
-	int num;
-	int i;
-
-	num = 1;
-	i = 0;
-	tmp = command;
-	type_detail = *tmp;
-	tokens->type = REDIRECTIONS;
-
-	if ((*(tmp + 1) == '>' && *(tmp) == '>') || (*(tmp + 1) == '<' && *(tmp) == '<'))
-		num = 2;
-	tokens->arg = malloc(sizeof(char) * (num + 1));
-	while (i < num)
-	{
-		tokens->arg[i] = type_detail;
-		i++;
-	}
-	tokens->arg[i] = '\0';
-	tmp += num;
-	return (tmp);
-}
-
 char *tokenize_expandable(t_token *tokens, char *command)
 {
 	int i;
@@ -170,7 +118,7 @@ char *tokenize_expandable(t_token *tokens, char *command)
 		i++;
 	tokens->arg = malloc(sizeof(char) * (i + 1));
 	i = 0;
-	while (*tmp && *tmp != ' ' && *tmp != '|' && *tmp != '<' && *tmp != '>' && *tmp != '\'' && *tmp != '\"')
+	while (*tmp && *tmp != ' ' && *tmp != '|' && *tmp != '\'' && *tmp != '\"')
 	{
 		tokens->arg[i] = *tmp;
 		i++;
@@ -197,8 +145,6 @@ void ft_split(t_token *tokens, char *command, int num_of_tokens)
 			command = tokenize_quoted(&tokens[i], command);
 		else if (*command == '|')
 			command = tokenize_pipe(&tokens[i], command);
-		else if (*command == '<' || *command == '>')
-			command = tokenize_redirections(&tokens[i], command);
 		else
 			command = tokenize_expandable(&tokens[i], command);
 		// printf("command :[%s]\n", command);
@@ -234,21 +180,21 @@ t_token *ft_tokenizer(char *command)
 	// }
 	return (tokens);
 }
-/*
-#include <libc.h>
-int main()
-{
-	t_token *result;
-	char *command;
-	while (1)
-	{
-		command = readline("test here> ");
-		result = ft_tokenizer(command);
-		for (int i = 0; result[i].arg != NULL; i++)
-		{
-			printf("arg: [%s]\n", result[i].arg);
-			printf("type: [%d]\n", result[i].type);
-		}
-		free(command);
-	}
-}*/
+
+// #include <libc.h>
+// int main()
+// {
+// 	char *command;
+// 	while (1)
+// 	{
+// 		command = readline("test here> ");
+// 		ft_tokenizer(command);
+// 		free(command);
+// 	}
+
+// 	//	for (int i = 0; result[i] != NULL; i++)
+// 	//	{
+// 	//		printf("arg: [%s]\n", result[i].arg);
+// 	//		printf("type: [%d]\n", result[i].type);
+// 	//	}
+// }
