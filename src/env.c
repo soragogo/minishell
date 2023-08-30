@@ -9,16 +9,16 @@ void add_new(t_env **map, t_env *new_env);
 void env_unset(t_env **env_head, char *delete_env_key);
 char *map_get(t_env **env_head, char *name);
 
-// 新しいマップデータ構造を作成
-t_env	*map_new(void)
-{
-	t_env	*map;
+// // 新しいマップデータ構造を作成
+// t_env	*map_new(void)
+// {
+// 	t_env	*map;
 
-	map = calloc(1, sizeof(*map));
-	if (map == NULL)
-		printf("calloc error");//error
-	return (map);
-}
+// 	map = calloc(1, sizeof(*map));
+// 	if (map == NULL)
+// 		printf("calloc error");//error
+// 	return (map);
+// }
 
 //環境変数から変数名取り出す char型じゃなくてよくね？
 char *get_env_name(char *ret, char *env)
@@ -203,12 +203,32 @@ char *map_get(t_env **env_head, char *name)
 	return (NULL);
 }
 
+void free_map(t_env **map)
+{
+	t_env *env;
+	t_env *tmp;
+	t_env *head;
+
+	env = *map;
+	head = *map;
+	while (env && env->next)
+	{
+		tmp = env->next;
+		free(env->name);
+		free(env->value);
+		free(env);
+		env = tmp;
+	}
+	free(env);
+}
+
 
 // #include <stdio.h>
 // // テスト用の main 関数
 // int main() {
-//     t_env *map = map_new();
+//     t_env *map = NULL;
 //     envmap_init(&map);
+// 	t_env *map2 = map;
 	
 // 	printf("1\n");
 //     // マップに環境変数を追加するテスト
@@ -237,8 +257,16 @@ char *map_get(t_env **env_head, char *name)
 // 		map = map->next;
 // 	}
 
+// 	free_map(&map2);
+
 //     // メモリの解放
 //     // ここで実際のコードでは map やその中身の要素を適切に解放する必要があります
 
 //     return 0;
+// }
+
+
+// __attribute__((destructor)) static void destructor()
+// {
+// 	system("leaks -q a.out");
 // }
