@@ -20,7 +20,7 @@ t_env	*map_new(void)
 	return (map);
 }
 
-//環境変数から変数名取り出す
+//環境変数から変数名取り出す char型じゃなくてよくね？
 char *get_env_name(char *ret, char *env)
 {
 	size_t i;
@@ -87,6 +87,7 @@ int	set_env(t_env **env_head, char *name, char *value)//値がNULLの場合？
 	t_env *env;
 	t_env *new;
 
+	new = NULL;
 	env = *env_head;
 	if (name == NULL)// || !is_identifier(name)) //環境変数に設定できない文字ってどれ？
 		return (-1);
@@ -136,7 +137,7 @@ size_t count_env(t_env *env)
 void add_new(t_env **map, t_env *new_env)
 {
 	t_env *env;
-	t_env *prev;
+	// t_env *prev;
 	size_t i;
 
 	env = *map;
@@ -149,7 +150,7 @@ void add_new(t_env **map, t_env *new_env)
 	else{
 		while ((env)->next)
 		{
-			prev = env;
+			// prev = env;
 			env = (env)->next;
 		}
 		// prev->next = *map;

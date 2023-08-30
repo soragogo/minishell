@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 
 
@@ -7,6 +7,8 @@ int main()
 {
 	char *command_buf;
 	int status;
+	t_env *map = map_new();
+    envmap_init(&map);
 	while (1)
 	{
 		ft_signals();
@@ -17,7 +19,7 @@ int main()
 		else
 			add_history(command_buf);
 		if (strncmp(command_buf, "cd", 2) == 0 && (command_buf[2] == '\0' || command_buf[2] == ' '))
-			status = ft_chdir(command_buf);
+			status = ft_chdir(&command_buf, &map);
 		else if(strncmp(command_buf, "echo $?", 8) == 0)
 			printf("%d\n", status);
 		else
