@@ -1,10 +1,10 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-void fatal_error(const char *msg) __attribute__((noreturn));
+// void fatal_error(const char *msg) __attribute__((noreturn));
 
-void fatal_error(const char *msg)
+void fatal_error(char *msg)
 {
-	perror(msg);
+	printf("%s\n", msg);
 	exit(1);
 }
 

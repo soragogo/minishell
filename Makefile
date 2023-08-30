@@ -1,7 +1,7 @@
-NAME = minishell
+# NAME = minishell
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iincludes
+# CC = cc
+# CFLAGS = -Wall -Wextra -Werror -Iincludes
 
 SRC = src/main.c \
       src/ft_system.c \
@@ -9,9 +9,7 @@ SRC = src/main.c \
 	  src/signal_handler.c \
 	  exec_filename/search_path.c
 
-OBJS = $(SRC:.c=.o)
-OBJS := $(OBJS:src/%=obj/%)
-RLDIR = $(shell brew --prefix readline)
+
 
 LIBFTDIR = libft
 LIBFT = $(LIBFTDIR)/libft.a
@@ -24,6 +22,36 @@ TOKEN_INCLUDE = -I$(TOKENDIR)
 TOKEN_LINK = -L$(TOKENDIR) -ltokenizer
 
 
+
+NAME	=	minishell
+
+SRC_DIR			=	src
+TOKENIZER_DIR	=	tokenizer
+OBJ_DIR			=	obj
+
+SRCS =	builtin_chdir.c \
+		builtin_echo.c \
+		builtin_env.c \
+		builtin_exit.c \
+		builtin_export.c \
+		builtin_pwd.c \
+		builtin_unset.c \
+		env.c \
+		ft_system.c \
+		main.c \
+		signal_handler.c
+
+T_SRCS		=	ft_tokenizer.c \
+				getpath.c
+
+LIBFT_DIR	=	./libft
+LIBFT		=	$(LIBFTDIR)/libft.a
+
+OBJS		=	$(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o)) $(addprefix $(OBJ_DIR)/,$(T_SRCS:.c=.o))
+
+CC		=	cc
+CFLAGS	=	-Wall -Wextra -Werror -I./readline
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
@@ -35,7 +63,9 @@ $(NAME): $(OBJS)
 obj/%.o: src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I $(RLDIR)/include $(LIBFT_INCLUDE) $(TOKEN_INCLUDE)
 
-$(OBJS): $(SRC)
+
+$(OBJ_DIR)/%.o: $(TOKENIZER_DIR)/%.c
+	@ $(CC) $(CFLAGS) -c -o $@ $<
 
 $(LIBFT):
 	make -C $(LIBFTDIR)
@@ -52,5 +82,5 @@ fclean: clean
 	make -C $(LIBFTDIR) fclean
 	make -C $(TOKENDIR) fclean
 
-re: fclean all
 
+re: fclean all
