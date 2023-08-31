@@ -15,30 +15,30 @@
 #include "../libft/libft.h"
 #include "../tokenizer/token.h"
 int ft_system(t_token *tokens, int *status);
-int ft_chdir(char *command_buf);
+// int ft_chdir(char *command_buf);
 void ft_signals(void);
 void waitline();
 t_token *search_path(t_token *tokens);
 
-
-typedef struct	s_env
+typedef struct s_env
 {
-	char			*name;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
+	char *name;
+	char *value;
+	struct s_env *next;
+} t_env;
 
-int ft_system(char *command, int *status);
+int ft_system(t_token *tokens, int *status);
 // int ft_chdir(char *command_buf);
+t_token *search_path(t_token *tokens);
 int ft_chdir(char **command_buf, t_env **env);
 void ft_signals(void);
 void waitline();
 
-t_env	*map_new(void);
+t_env *map_new(void);
 char *get_env_name(char *ret, char *env);
 char *get_env_value(char *ret, char *env);
-void	envmap_init(t_env **map);
-int	set_env(t_env **env_head, char *name, char *value);
+void envmap_init(t_env **map);
+int set_env(t_env **env_head, char *name, char *value);
 t_env *item_new(t_env *new_env, char *name, char *value);
 void add_new(t_env **map, t_env *new_env);
 void env_unset(t_env **env_head, char *delete_env_key);

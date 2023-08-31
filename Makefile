@@ -39,7 +39,8 @@ SRCS =	builtin_chdir.c \
 		env.c \
 		ft_system.c \
 		main.c \
-		signal_handler.c
+		signal_handler.c \
+		../exec_filename/search_path.c
 
 T_SRCS		=	ft_tokenizer.c \
 				getpath.c
@@ -48,7 +49,7 @@ LIBFT_DIR	=	./libft
 LIBFT		=	$(LIBFTDIR)/libft.a
 
 OBJS		=	$(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o)) $(addprefix $(OBJ_DIR)/,$(T_SRCS:.c=.o))
-
+RLDIR = $(shell brew --prefix readline)
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -I./readline
 
