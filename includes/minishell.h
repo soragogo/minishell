@@ -15,7 +15,8 @@
 #include "../libft/libft.h"
 #include "../tokenizer/token.h"
 int ft_system(t_token *tokens, int *status);
-//int ft_chdir(char *command_buf);
+//
+int ft_chdir(char *command_buf);
 void ft_signals(void);
 void waitline();
 t_token *search_path(t_token *tokens);
