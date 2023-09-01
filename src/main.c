@@ -36,14 +36,7 @@ int main()
 		if (*command_buf == '\0')
 			continue ;
 		tokens = ft_tokenizer(command_buf);
-//		for (int i = 0; tokens[i].arg != NULL; i++)
-//		{
-//			printf("%s\n", tokens[i].arg);
-//		}
-		if (ft_strncmp(command_buf, "cd", 2) == 0 && (command_buf[2] == '\0' || command_buf[2] == ' '))
-			status = ft_chdir(command_buf);
-
-		else if (ft_strncmp(command_buf, "echo $?", 8) == 0)
+		if (ft_strncmp(command_buf, "echo $?", 8) == 0)
 		{
 			printf("%d\n", status);
 			status = 0;
