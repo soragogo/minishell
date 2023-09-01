@@ -3,11 +3,11 @@
 # CC = cc
 # CFLAGS = -Wall -Wextra -Werror -Iincludes
 
-SRC = src/main.c \
-      src/ft_system.c \
-      src/ft_chdir.c \
-	  src/signal_handler.c \
-	  exec_filename/search_path.c
+# SRC = src/main.c \
+#       src/ft_system.c \
+#       src/ft_chdir.c \
+# 	  src/signal_handler.c \
+# 	  exec_filename/
 
 
 
@@ -39,7 +39,8 @@ SRCS =	builtin_chdir.c \
 		env.c \
 		ft_system.c \
 		main.c \
-		signal_handler.c
+		signal_handler.c \
+		search_path.c
 
 T_SRCS		=	ft_tokenizer.c \
 				getpath.c
@@ -48,6 +49,7 @@ LIBFT_DIR	=	./libft
 LIBFT		=	$(LIBFTDIR)/libft.a
 
 OBJS		=	$(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o)) $(addprefix $(OBJ_DIR)/,$(T_SRCS:.c=.o))
+RLDIR = $(shell brew --prefix readline)
 
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -I./readline
@@ -58,7 +60,7 @@ $(NAME): $(OBJS)
 	@echo "set echo-control-characters off" > ~/.inputrc
 	@make -C $(LIBFTDIR)
 	@make -C $(TOKENDIR)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_LINK) $(TOKEN_LINK) -lreadline -L $(RLDIR)/lib
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_LINK) $(TOKEN_LINK) -lreadline -L$(RLDIR)/lib
 
 obj/%.o: src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I $(RLDIR)/include $(LIBFT_INCLUDE) $(TOKEN_INCLUDE)

@@ -15,7 +15,7 @@
 #include "../libft/libft.h"
 #include "../tokenizer/token.h"
 int ft_system(t_token *tokens, int *status);
-int ft_chdir(char *command_buf);
+//int ft_chdir(char *command_buf);
 void ft_signals(void);
 void waitline();
 t_token *search_path(t_token *tokens);
@@ -28,7 +28,7 @@ typedef struct	s_env
 	struct s_env	*next;
 }	t_env;
 
-int ft_system(char *command, int *status);
+//int ft_system(char *command, int *status);
 // int ft_chdir(char *command_buf);
 int ft_chdir(char **command_buf, t_env **env);
 void ft_signals(void);
