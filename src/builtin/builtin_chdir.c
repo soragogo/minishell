@@ -60,42 +60,42 @@ int ft_chdir(char **command_buf, t_env **env)
 }
 
 
-// // テスト用の関数
-// void test_ft_chdir(char **command_buf, t_env **env) {
-//     printf("Command: ");
-//     for (int i = 0; command_buf[i] != NULL; i++) {
-//         printf("%s ", command_buf[i]);
-//     }
-//     printf("\n");
+// テスト用の関数
+void test_ft_chdir(char **command_buf, t_env **env) {
+    printf("Command: ");
+    for (int i = 0; command_buf[i] != NULL; i++) {
+        printf("%s ", command_buf[i]);
+    }
+    printf("\n");
     
-//     int result = ft_chdir(command_buf, env);
+    int result = ft_chdir(command_buf, env);
     
-//     if (result == 0) {
-//         printf("Directory changed successfully.\n");
-//     } else {
-//         printf("Directory change failed.\n");
-//     }
-// 	printf("OLDPWD: %s\n", getenv("OLDPWD"));
-// 	printf("PWD: %s\n", getenv("PWD"));
-//     printf("\n");
-// }
+    if (result == 0) {
+        printf("Directory changed successfully.\n");
+    } else {
+        printf("Directory change failed.\n");
+    }
+	printf("OLDPWD: %s\n", getenv("OLDPWD"));
+	printf("PWD: %s\n", getenv("PWD"));
+    printf("\n");
+}
 
-// int main() {
-//     // テストケースを用意して実行
-//     t_env *env = map_new();
-//     envmap_init(&env);
+int main() {
+    // テストケースを用意して実行
+    t_env *env = map_new();
+    envmap_init(&env);
     
-//     char *test1[] = {"cd", NULL};
-//     test_ft_chdir(test1, &env);
+    char *test1[] = {"cd", NULL};
+    test_ft_chdir(test1, &env);
 
-//     char *test2[] = {"cd", "~/Documents", NULL};
-//     test_ft_chdir(test2, &env);
+    char *test2[] = {"cd", "~/Documents", NULL};
+    test_ft_chdir(test2, &env);
 
-//     char *test3[] = {"cd", "-", NULL};
-//     test_ft_chdir(test3, &env);
+    char *test3[] = {"cd", "-", NULL};
+    test_ft_chdir(test3, &env);
 
-//     char *test4[] = {"cd", "/tmp", NULL};
-//     test_ft_chdir(test4, &env);
+    char *test4[] = {"cd", "/tmp", NULL};
+    test_ft_chdir(test4, &env);
 
-//     return 0;
-// }
+    return 0;
+}

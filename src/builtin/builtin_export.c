@@ -7,6 +7,11 @@ void ft_export(t_env **map, char **arg)
 
 	name = NULL;
 	value = NULL;
+	if (arg[1] == NULL)
+	{
+		ft_env(map, arg[0]);
+		return ;
+	}
 	name = get_env_name(name, arg[1]);
 	value = get_env_value(value, arg[1]);
 	if(set_env(map, name, value) == -1)

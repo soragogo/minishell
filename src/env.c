@@ -20,7 +20,7 @@ char *map_get(t_env **env_head, char *name);
 // 	return (map);
 // }
 
-//環境変数から変数名取り出す char型じゃなくてよくね？
+//環境変数から変数名取り出す
 char *get_env_name(char *ret, char *env)
 {
 	size_t i;
