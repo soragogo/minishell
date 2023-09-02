@@ -14,11 +14,11 @@
 
 typedef enum
 {
-	NON_EXPANDABLE,
-	EXPANDABLE_QUOTED,
-	PIPE,
-	EXPANDABLE,
-	REDIRECTIONS,
+	NON_EXPANDABLE,//''
+	EXPANDABLE_QUOTED,//""
+	PIPE,//|
+	EXPANDABLE,//command, option
+	REDIRECTIONS,//<>
 } TYPE;
 
 typedef struct s_list_token
