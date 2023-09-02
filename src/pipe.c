@@ -12,7 +12,6 @@ int run_pipe(char **argv1, char **argv2){
 	int fd[2];
 	pid_t pid;
 	int status;
-	
 
 	pipe(fd);
 	pid = fork();
@@ -42,8 +41,10 @@ int run_pipe(char **argv1, char **argv2){
 	return (0);
 }
 
+//
+
 int main (){
-	char *argv1[] = {"ls", "-al", NULL};
+	char *argv1[] = {"echo", "-n", NULL};
 	char *argv2[] = {"grep", "pipe", NULL};
 
 	run_pipe(argv1, argv2);
