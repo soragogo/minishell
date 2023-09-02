@@ -23,28 +23,28 @@ void convert_env_variables(t_token *tokens)
 	}
 }
 
-/*
-int main()
-{
-	t_token *tokens;
-	t_token *env_converted_tokens;
-	char *command;
-	while (1)
-	{
-		command = readline("test here> ");
-		tokens = ft_tokenizer(command);
-		convert_env_variables(tokens);
-		for (int i = 0; tokens[i].arg != NULL; i++)
-		{
-			puts("------------------------");
-			printf("token[%d] :[%s]\n", i, tokens[i].arg);
-			if (tokens[i].is_freed == 0)
-				free(tokens[i].arg);
-		}
-		free(tokens);
-		free(command);
-
-	}
-	exit;
-
-}*/
+// #include <stdio.h>
+// #include <readline/readline.h>
+// #include <readline/history.h>
+// int main()
+// {
+// 	t_token *tokens;
+// 	t_token *env_converted_tokens;
+// 	char *command;
+// 	while (1)
+// 	{
+// 		command = readline("test here> ");
+// 		tokens = ft_tokenizer(command);
+// 		convert_env_variables(tokens);
+// 		for (int i = 0; tokens[i].arg != NULL; i++)
+// 		{
+// 			puts("------------------------");
+// 			printf("token[%d] :[%s]\n", i, tokens[i].arg);
+// 			if (tokens[i].is_freed == 0)
+// 				free(tokens[i].arg);
+// 		}
+// 		free(tokens);
+// 		free(command);
+// 	}
+// 	exit (0);
+// }

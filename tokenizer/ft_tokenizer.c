@@ -234,21 +234,21 @@ t_token *ft_tokenizer(char *command)
 	// }
 	return (tokens);
 }
-/*
-#include <libc.h>
-int main()
-{
-	t_token *result;
-	char *command;
-	while (1)
-	{
-		command = readline("test here> ");
-		result = ft_tokenizer(command);
-		for (int i = 0; result[i].arg != NULL; i++)
-		{
-			printf("arg: [%s]\n", result[i].arg);
-			printf("type: [%d]\n", result[i].type);
-		}
-		free(command);
-	}
-}*/
+
+// #include <libc.h>
+// int main()
+// {
+// 	t_token *result;
+// 	char *command;
+// 	while (1)
+// 	{
+// 		command = readline("test here> ");
+// 		result = ft_tokenizer(command);
+// 		for (int i = 0; result[i].arg != NULL; i++)
+// 		{
+// 			printf("arg: [%s]\n", result[i].arg);
+// 			printf("type: [%d]\n", result[i].type);
+// 		}
+// 		free(command);
+// 	}
+// }
