@@ -27,9 +27,8 @@ typedef struct s_env
 	struct s_env *next;
 } t_env;
 
-int ft_system(t_token *tokens, int *status);
+// int ft_system(char *command, int *status);
 // int ft_chdir(char *command_buf);
-t_token *search_path(t_token *tokens);
 int ft_chdir(char **command_buf, t_env **env);
 void ft_signals(void);
 void waitline();
