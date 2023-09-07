@@ -234,7 +234,7 @@ t_token *ft_tokenizer(char *command)
 	// }
 	return (tokens);
 }
-/*
+
 #include <libc.h>
 int main()
 {
@@ -251,4 +251,4 @@ int main()
 		}
 		free(command);
 	}
-}*/
+}
