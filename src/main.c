@@ -21,12 +21,15 @@ char *ft_readline()
 
 }
 
-
 int main()
 {
 	char *command_buf;
 	int status;
 	t_token *tokens;
+	t_env *env;
+	t_info info;
+	
+	envmap_init(&env);//info_initの方がいいか
 	while (1)
 	{
 		ft_signals();
@@ -35,21 +38,21 @@ int main()
 			break ;
 		if (*command_buf == '\0')
 			continue ;
+		// char command_buf[] = "echo a $?a";
 		tokens = ft_tokenizer(command_buf);
-//		for (int i = 0; tokens[i].arg != NULL; i++)
-//		{
-//			printf("%s\n", tokens[i].arg);
-//		}
-		if (ft_strncmp(command_buf, "cd", 2) == 0 && (command_buf[2] == '\0' || command_buf[2] == ' '))
-			status = ft_chdir(command_buf);
-
-		else if (ft_strncmp(command_buf, "echo $?", 8) == 0)
-		{
-			printf("%d\n", status);
-			status = 0;
-		}
-		else
-			ft_system(tokens, &status);
+		status = is_builtin(tokens, &info);//builtinだったら実行
+		if (status == -1)
+			ft_system(tokens, &status);//builtin以外のコマンドを実行
+		info.exit_status_log = status;
+		// if (ft_strncmp(command_buf, "cd", 2) == 0 && (command_buf[2] == '\0' || command_buf[2] == ' '))
+		// 	status = ft_chdir(&command_buf, &env);
+		// else if (ft_strncmp(command_buf, "echo $?", 8) == 0)//直前のコマンドの終了ステータスを表示
+		// {
+		// 	printf("%d\n", status);
+		// 	status = 0;
+		// }
+		// else
+		// 	ft_system(tokens, &status);//builtin以外のコマンドを実行する関数
 		free_before_closing(tokens, command_buf);
 	}
 	return (0);

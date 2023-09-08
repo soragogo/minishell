@@ -1,25 +1,5 @@
 #include "../includes/minishell.h"
 
-char *get_env_name(char *ret, char *env);
-char *get_env_value(char *ret, char *env);
-void	envmap_init(t_env **map);
-int	set_env(t_env **env_head, char *name, char *value);
-t_env *item_new(t_env *new_env, char *name, char *value);
-void add_new(t_env **map, t_env *new_env);
-void env_unset(t_env **env_head, char *delete_env_key);
-char *map_get(t_env **env_head, char *name);
-
-// // 新しいマップデータ構造を作成
-// t_env	*map_new(void)
-// {
-// 	t_env	*map;
-
-// 	map = calloc(1, sizeof(*map));
-// 	if (map == NULL)
-// 		printf("calloc error");//error
-// 	return (map);
-// }
-
 //環境変数から変数名取り出す
 char *get_env_name(char *ret, char *env)
 {
@@ -32,6 +12,8 @@ char *get_env_name(char *ret, char *env)
 	while(env[i] != '=' && env[i] != '\0')
 		i++;
 	ret = malloc(sizeof(char) * i + 1);
+	if (ret == NULL)
+		printf("malloc error");//error
 	while (j < i)
 	{
 		ret[j] = env[j];
@@ -62,6 +44,16 @@ char *get_env_value(char *ret, char *env)//""で囲まれてた時とかの処�
 	return (ret);
 }
 
+// 新しいマップデータ構造を作成
+t_env	*map_new(void)
+{
+	t_env	*map;
+
+	map = calloc(1, sizeof(*map));
+	if (map == NULL)
+		printf("calloc error");//error
+	return (map);
+}
 
 //環境変数をマップデータ構造に初期化
 void	envmap_init(t_env **map)
@@ -71,6 +63,7 @@ void	envmap_init(t_env **map)
 	char *name;
 	char *value;
 
+	*map = map_new();
     while(*env) {
         name = get_env_name(name, *env);
 		value = get_env_value(value, *env);
@@ -79,6 +72,24 @@ void	envmap_init(t_env **map)
 		// printf("name: %s\nvalue: %s\n",name ,value);
         env++;
     }
+}
+
+int ft_strcmp(char *s1, char *s2)
+{
+	int i;
+
+	i = 0;
+	if (!s1 || !s2)
+		return (-1);
+	while (s1[i] && s2[i])
+	{
+		if(s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
+	}
+	if (s1[i] != s2[i])
+		return (s1[i] - s2[i]);
+	return (0);
 }
 
 //マップデータ構造に環境変数を追加
@@ -91,13 +102,15 @@ int	set_env(t_env **env_head, char *name, char *value)//値がNULLの場合？
 	env = *env_head;
 	if (name == NULL)// || !is_identifier(name)) //環境変数に設定できない文字ってどれ？
 		return (-1);
-	while (env && env->name)
+	while (name && env->name)
 	{
-		if(strcmp(name, env->name) == 0)
+		if(ft_strcmp(name, env->name) == 0)
 		{
 			env_unset(env_head, env->name);
 			break ;
 		}
+		else if(strcmp(name, env->name) == -1)
+			break ;
 		env++;
 	}
 	// if (env)//すでにあったら一回消す
@@ -125,7 +138,7 @@ size_t count_env(t_env *env)
 	size_t i;
 
 	i = 0;
-	while (env && env->name)
+	while (env->name)
 	{
 		i++;
 		env++;
@@ -207,10 +220,10 @@ void free_map(t_env **map)
 {
 	t_env *env;
 	t_env *tmp;
-	t_env *head;
+	// t_env *head;
 
 	env = *map;
-	head = *map;
+	// head = *map;
 	while (env && env->next)
 	{
 		tmp = env->next;
