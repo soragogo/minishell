@@ -56,9 +56,9 @@ int	ft_echo(t_token *tokens, int status);
 int	ft_chdir(t_token *tokens, t_env **env);
 int	ft_pwd(void);
 int	ft_exit(char **arg);
-int	ft_unset(t_env **env_head, char **arg);
-int	ft_env(t_env **env_head, char *arg);
-int	ft_export(t_env **map, char **arg);
+int	ft_unset(t_env **env_head, t_token *tokens);
+int	ft_env(t_env **env_head);
+int	ft_export(t_env **map, t_token *tokens);
 
 	/* utils */
 int is_builtin(t_token *tokens, t_info *info);

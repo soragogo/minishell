@@ -7,20 +7,17 @@ int is_builtin(t_token *tokens, t_info *info){
 	status = 0;
 	if (strncmp(tokens[0].arg, "echo", 4) == 0 && ft_strlen(tokens[0].arg) == 4)
 		status = ft_echo(tokens, info->exit_status_log);
-	else if (strcmp(tokens[0].arg, "cd") == 0){
+	else if (strcmp(tokens[0].arg, "cd") == 0)
 		status = ft_chdir(tokens, &(info->map_head));
-		printf("status:%d\n", status);
-	}
-		
-	// else if (strcmp(argv, "pwd") == 0)
-	// 	status = ft_pwd();
-	// else if (strcmp(argv, "export") == 0)
-	// 	status = ft_export(&info->map_head, &argv);
-	// else if (strcmp(argv, "unset") == 0)
-	// 	status = ft_unset(&info->map_head, &argv);
 	else if (strcmp(tokens[0].arg, "env") == 0)
-		status = ft_env(&info->map_head, tokens[0].arg);
-	// else if (strcmp(argv, "exit") == 0)
+		status = ft_env(&(info->map_head));
+	else if (strcmp(tokens[0].arg, "pwd") == 0)
+		status = ft_pwd();
+	else if (strcmp(tokens[0].arg, "export") == 0)
+		status = ft_export(&info->map_head, tokens);
+	else if (strcmp(tokens[0].arg, "unset") == 0)
+		status = ft_unset(&info->map_head, tokens);
+	// else if (strcmp(tokens[0].arg, "exit") == 0)
 	// 	status = ft_exit(&argv);
 	else
 		return (-1);

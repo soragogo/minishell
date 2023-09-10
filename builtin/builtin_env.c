@@ -1,11 +1,11 @@
 #include "./../includes/minishell.h"
 
-int ft_env(t_env **env_head, char *arg)
+//arg消そう
+int ft_env(t_env **env_head)
 {
 	t_env *tmp;
 
 	tmp = *env_head;
-	(void)arg;
 	while (tmp)
 	{
 		printf("%s=%s\n", tmp->name, tmp->value);

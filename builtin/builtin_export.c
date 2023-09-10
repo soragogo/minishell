@@ -1,19 +1,23 @@
 #include "./../includes/minishell.h"
 
-int ft_export(t_env **map, char **arg)
+int ft_export(t_env **map, t_token *tokens)
 {
 	char *name;
 	char *value;
 
 	name = NULL;
 	value = NULL;
-	if (arg[1] == NULL)//引数を取らない場合、一覧表示
+	if (tokens[1].arg == NULL)//引数を取らない場合、一覧表示
 	{
-		ft_env(map, arg[0]);
+		ft_env(map);
 		return (0);
 	}
-	name = get_env_name(name, arg[1]);
-	value = get_env_value(value, arg[1]);
+	if (strchr(tokens[1].arg, '=') == NULL)//=がない場合、エラー
+	{
+		return (0);
+	}
+	name = get_env_name(name, tokens[1].arg);
+	value = get_env_value(value, tokens[1].arg);
 	if(set_env(map, name, value) == -1)//環境変数をセット
 	{
 		printf("error");

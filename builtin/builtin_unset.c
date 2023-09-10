@@ -1,9 +1,15 @@
 #include "./../includes/minishell.h"
 
-//後で綺麗にします
-int ft_unset(t_env **env_head, char **arg)
+int ft_unset(t_env **env_head, t_token *tokens)
 {
-	env_unset(env_head, arg[1]);
+	int i;
+
+	i = 1;
+	while (tokens[i].arg != NULL)
+	{
+		env_unset(env_head, tokens[i].arg);
+		i++;
+	}
 	return (0);
 }
 
