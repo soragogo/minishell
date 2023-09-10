@@ -129,7 +129,7 @@ char *tokenize_expandable(t_token *tokens, char *command)
 	return (tmp);
 }
 
-void ft_split(t_token *tokens, char *command, int num_of_tokens)
+void ft_token_split(t_token *tokens, char *command, int num_of_tokens)
 {
 	int i;
 
@@ -162,7 +162,7 @@ t_token *ft_tokenizer(char *command)
 	num_of_tokens = 0;
 	count_tokens(command, &num_of_tokens);
 	tokens = (t_token *)malloc(sizeof(t_token) * (num_of_tokens + 1));
-	ft_split(tokens, command, num_of_tokens);
+	ft_token_split(tokens, command, num_of_tokens);
 	// printf("num_of_tokens: [%d]\n", num_of_tokens);
 	// for (int i = 0; tokens[i].arg != NULL; i++)
 	// {

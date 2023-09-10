@@ -102,16 +102,16 @@ int	set_env(t_env **env_head, char *name, char *value)//値がNULLの場合？
 	env = *env_head;
 	if (name == NULL)// || !is_identifier(name)) //環境変数に設定できない文字ってどれ？
 		return (-1);
-	while (name && env->name)
+	while (env)//name && env->name
 	{
 		if(ft_strcmp(name, env->name) == 0)
 		{
 			env_unset(env_head, env->name);
 			break ;
 		}
-		else if(strcmp(name, env->name) == -1)
-			break ;
-		env++;
+		// else if(ft_strcmp(name, env->name) == -1)
+		// 	break ;
+		env = env->next;
 	}
 	// if (env)//すでにあったら一回消す
 	// 	env_unset(env_head, env->name);
@@ -240,37 +240,33 @@ void free_map(t_env **map)
 // // テスト用の main 関数
 // int main() {
 //     t_env *map = NULL;
+// 	map = map_new();
 //     envmap_init(&map);
 // 	t_env *map2 = map;
 	
-// 	printf("1\n");
 //     // マップに環境変数を追加するテスト
 //     set_env(&map, "TEST_ENV", "Hello, World!");
-// 	printf("2\n");
-//     set_env(&map, "ANOTHER_ENV", "12345");
-// 	printf("3\n");
+// 	set_env(&map, "TEST_ENV", "Hello, World!2");
+// 	printf("TEST_ENV: %s\n", map_get(&map, "TEST_ENV"));
+//     // set_env(&map, "ANOTHER_ENV", "12345");
 
 
-//     // マップから環境変数の値を取得するテスト
-//     printf("TEST_ENV: %s\n", map_get(&map, "TEST_ENV"));
-// 	printf("4\n");
-//     printf("ANOTHER_ENV: %s\n", map_get(&map, "ANOTHER_ENV"));
-// 	printf("5\n");
+//     // // マップから環境変数の値を取得するテスト
+//     // printf("TEST_ENV: %s\n", map_get(&map, "TEST_ENV"));
+//     // printf("ANOTHER_ENV: %s\n", map_get(&map, "ANOTHER_ENV"));
 
-//     // マップから環境変数を削除するテスト
-//     env_unset(&map, "ANOTHER_ENV");
-// 	printf("6\n");
-	
-//     printf("ANOTHER_ENV after unset: %s\n", map_get(&map, "ANOTHER_ENV"));
-// 	printf("7\n");
+//     // // マップから環境変数を削除するテスト
+//     // env_unset(&map, "ANOTHER_ENV");
 
-// 	while (map)
-// 	{
-// 		printf("name: %s\nvalue: %s\n", map->name, map->value);
-// 		map = map->next;
-// 	}
+//     // printf("ANOTHER_ENV after unset: %s\n", map_get(&map, "ANOTHER_ENV"));
 
-// 	free_map(&map2);
+// 	// while (map)
+// 	// {
+// 	// 	printf("name: %s\nvalue: %s\n", map->name, map->value);
+// 	// 	map = map->next;
+// 	// }
+
+// 	// free_map(&map2);
 
 //     // メモリの解放
 //     // ここで実際のコードでは map やその中身の要素を適切に解放する必要があります

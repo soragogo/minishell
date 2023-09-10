@@ -21,7 +21,7 @@ void waitline();
 t_token *search_path(t_token *tokens);
 
 
-typedef struct	s_env
+typedef struct	s_env			//環境変数のリスト
 {
 	char			*name;
 	char			*value;
@@ -30,8 +30,8 @@ typedef struct	s_env
 
 typedef struct	s_info
 {
-	t_env	*map_head;
-	int		exit_status_log;
+	t_env	*map_head;			//環境変数のリスト
+	int		exit_status_log;	//直前のコマンドの終了ステータス
 }	t_info;
 
 // int ft_system(char *command, int *status);
@@ -49,15 +49,18 @@ t_env	*item_new(t_env *new_env, char *name, char *value);
 void	add_new(t_env **map, t_env *new_env);
 void	env_unset(t_env **env_head, char *delete_env_key);
 char	*map_get(t_env **env_head, char *name);
-void	ft_env(t_env **env_head, char *arg);
+void	free_map(t_env **map);
 
 	/* builtin command */
-void	ft_echo(char **arg);
-void	ft_pwd(void);
-void	ft_exit(char **arg);
-void	ft_unset(t_env **env_head, char **arg);
-void	ft_env(t_env **env_head, char *arg);
-void	ft_export(t_env **map, char **arg);
-int		ft_chdir(char **command_buf, t_env **env);
+int	ft_echo(t_token *tokens, int status);
+int	ft_chdir(t_token *tokens, t_env **env);
+int	ft_pwd(void);
+int	ft_exit(char **arg);
+int	ft_unset(t_env **env_head, char **arg);
+int	ft_env(t_env **env_head, char *arg);
+int	ft_export(t_env **map, char **arg);
+
+	/* utils */
+int is_builtin(t_token *tokens, t_info *info);
 
 #endif

@@ -30,6 +30,7 @@ int main()
 	t_info info;
 	
 	envmap_init(&env);//info_initの方がいいか
+	info.map_head = env;
 	while (1)
 	{
 		ft_signals();
@@ -38,7 +39,7 @@ int main()
 			break ;
 		if (*command_buf == '\0')
 			continue ;
-		// char command_buf[] = "echo a $?a";
+		// char command_buf[] = "cd ~";
 		tokens = ft_tokenizer(command_buf);
 		status = is_builtin(tokens, &info);//builtinだったら実行
 		if (status == -1)
