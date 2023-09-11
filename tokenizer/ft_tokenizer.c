@@ -3,7 +3,7 @@
 
 int is_dilimeter(char c)
 {
-	if (c == ' ' || c == '|' || c == '<' || c == '>')
+	if (c == '|' || c == '<' || c == '>')
 		return 1;
 	return 0;
 }
@@ -23,7 +23,7 @@ char *find_end_of_quote(char *command)
 char *find_end_of_arg(char *command)
 {
 	char *tmp = command;
-	if (*tmp == '|' || *tmp == '<' || *tmp == '>')
+	if (is_dilimeter(*tmp) == 1)
 	{
 		if (*tmp == '<' && *(tmp + 1) == '<')
 			tmp++;
@@ -33,7 +33,7 @@ char *find_end_of_arg(char *command)
 	}
 	else
 	{
-		while (is_dilimeter(*command) == 0 && *command)
+		while (is_dilimeter(*command) == 0 && *command != ' ' && *command)
 		{
 			if (*command == '\'' || *command == '\"')
 				command = find_end_of_quote(command);
@@ -77,8 +77,6 @@ void ft_split(t_token *tokens, char *command, int num_of_tokens)
 	{
 		tokens[i].arg = malloc(sizeof(char) * (end - start + 2));
 		tokens[i].is_freed = 0;
-		printf("start;[%c]\n", *start);
-		printf("end;[%c]\n", *end);
 		strlcpy(tokens[i].arg, start, end - start + 2);
 		start = end + 1;
 		while (*start == ' ')
@@ -96,47 +94,27 @@ t_token *ft_tokenizer(char *command)
 	t_token *tokens;
 
 	num_of_tokens = count_tokens(command);
-	printf("num_of_tokens: %d\n", num_of_tokens);
 	tokens = (t_token *)malloc(sizeof(t_token) * (num_of_tokens + 1));
 	if (!tokens)
 		return (NULL);
 	ft_split(tokens, command, num_of_tokens);
-	for (int i = 0; tokens[i].arg != NULL; i++)
-	{
-		printf("tokens[%d].arg -> %s\n", i, tokens[i].arg);
-	}
-	// printf("num_of_tokens: [%d]\n", num_of_tokens);
-	// for (int i = 0; tokens[i].arg != NULL; i++)
-	// {
-	// 	puts("------------------");
-	// 	printf("token[%d] :[%s]\n", i, tokens[i].arg);
-	// 	if (tokens[i].type == 0)
-	// 		puts("NON_EXPANDABLE ''");
-	// 	if (tokens[i].type == 1)
-	// 		puts("EXPANDABLE_QUOTED "
-	// 			 "");
-	// 	if (tokens[i].type == 2)
-	// 		puts("PIPE |");
-	// 	if (tokens[i].type == 3)
-	// 		puts("EXPANDABLE 文字列");
-	// }
 	return (tokens);
 }
 
-#include <libc.h>
-int main()
-{
-	t_token *result;
-	char *command;
-	while (1)
-	{
-		command = readline("test here> ");
-		result = ft_tokenizer(command);
-		// for (int i = 0; result[i].arg != NULL; i++)
-		// {
-		// 	printf("arg: [%s]\n", result[i].arg);
-		// 	printf("type: [%d]\n", result[i].type);
-		// }
-		free(command);
-	}
-}
+// #include <libc.h>
+// int main()
+// {
+// 	t_token *result;
+// 	char *command;
+// 	while (1)
+// 	{
+// 		command = readline("test here> ");
+// 		result = ft_tokenizer(command);
+// 		// for (int i = 0; result[i].arg != NULL; i++)
+// 		// {
+// 		// 	printf("arg: [%s]\n", result[i].arg);
+// 		// 	printf("type: [%d]\n", result[i].type);
+// 		// }
+// 		free(command);
+// 	}
+// }
