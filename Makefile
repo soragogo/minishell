@@ -50,7 +50,6 @@ LIBFT		=	$(LIBFTDIR)/libft.a
 
 OBJS		=	$(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o)) $(addprefix $(OBJ_DIR)/,$(T_SRCS:.c=.o))
 RLDIR = $(shell brew --prefix readline)
-
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -I./readline
 

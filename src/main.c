@@ -3,12 +3,12 @@
 void free_before_closing(t_token *tokens, char *command_buf)
 {
 	for (int i = 0; tokens[i].arg != NULL; i++)
-		{
-			if (tokens[i].is_freed == 0)
-				free(tokens[i].arg);
-		}
-		free(tokens);
-		free(command_buf);
+	{
+		if (tokens[i].is_freed == 0)
+			free(tokens[i].arg);
+	}
+	free(tokens);
+	free(command_buf);
 }
 
 char *ft_readline()
@@ -18,9 +18,7 @@ char *ft_readline()
 	if (command_buf)
 		add_history(command_buf);
 	return (command_buf);
-
 }
-
 
 int main()
 {
@@ -32,9 +30,9 @@ int main()
 		ft_signals();
 		command_buf = ft_readline();
 		if (!command_buf)
-			break ;
+			break;
 		if (*command_buf == '\0')
-			continue ;
+			continue;
 		tokens = ft_tokenizer(command_buf);
 		if (ft_strncmp(command_buf, "echo $?", 8) == 0)
 		{
