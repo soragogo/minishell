@@ -3,11 +3,11 @@
 # CC = cc
 # CFLAGS = -Wall -Wextra -Werror -Iincludes
 
-SRC = src/main.c \
-      src/ft_system.c \
-      src/ft_chdir.c \
-	  src/signal_handler.c \
-	  exec_filename/search_path.c
+# SRC = src/main.c \
+#       src/ft_system.c \
+#       src/ft_chdir.c \
+# 	  src/signal_handler.c \
+# 	  exec_filename/
 
 
 
@@ -32,7 +32,8 @@ BUILTIN_DIR		=	builtin
 SRCS =	env.c \
 		ft_system.c \
 		main.c \
-		signal_handler.c
+		signal_handler.c \
+		search_path.c
 
 T_SRCS		=	ft_tokenizer.c \
 				getpath.c
@@ -48,10 +49,15 @@ B_SRCS		=	builtin_chdir.c \
 LIBFT_DIR	=	./libft
 LIBFT		=	$(LIBFTDIR)/libft.a
 
+<<<<<<< HEAD
 OBJS		=	$(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o)) \
 				$(addprefix $(OBJ_DIR)/,$(T_SRCS:.c=.o)) \
 				$(addprefix $(OBJ_DIR)/,$(B_SRCS:.c=.o))
 
+=======
+OBJS		=	$(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o)) $(addprefix $(OBJ_DIR)/,$(T_SRCS:.c=.o))
+RLDIR = $(shell brew --prefix readline)
+>>>>>>> ffd562c95b262524d0e74e84217e6a8f6d89be3e
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -I./readline
 
@@ -62,7 +68,7 @@ $(NAME): $(OBJS)
 	@mkdir -p $(OBJ_DIR)
 	@make -C $(LIBFTDIR)
 	@make -C $(TOKENDIR)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_LINK) $(TOKEN_LINK) -lreadline -L $(RLDIR)/lib
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_LINK) $(TOKEN_LINK) -lreadline -L$(RLDIR)/lib
 
 obj/%.o: src/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I $(RLDIR)/include $(LIBFT_INCLUDE) $(TOKEN_INCLUDE)

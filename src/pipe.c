@@ -24,6 +24,14 @@ int is_builtin(t_token *tokens, t_info *info){
 	return (status);
 }
 
+int exec_command(t_token *tokens, t_info *info){
+	
+}
+
+void handle_redirect(){
+	
+}
+
 // void ft_execve(char **argv){
 // 	char *path;
 // 	char *tmp;

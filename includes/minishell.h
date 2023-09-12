@@ -20,13 +20,12 @@ void ft_signals(void);
 void waitline();
 t_token *search_path(t_token *tokens);
 
-
-typedef struct	s_env			//環境変数のリスト
+typedef struct s_env
 {
-	char			*name;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
+	char *name;
+	char *value;
+	struct s_env *next;
+} t_env;
 
 typedef struct	s_info
 {
