@@ -29,7 +29,6 @@ void ft_parser(t_token *tokens)
 		}
 		else
 			tokens[i].type = FILE_NAME;
-
 		i++;
 	}
 }

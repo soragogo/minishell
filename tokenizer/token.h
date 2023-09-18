@@ -12,15 +12,10 @@
 #include <readline/history.h>
 #include <signal.h>
 
+#include "../includes/minishell.h"
+
 typedef enum
 {
-<<<<<<< HEAD
-	NON_EXPANDABLE,//''
-	EXPANDABLE_QUOTED,//""
-	PIPE,//|
-	EXPANDABLE,//command, option
-	REDIRECTIONS,//<>
-=======
 	UNCATEGORIZED,
 	PIPE,		   // | (パイプ)
 	REDIRECT_OUT,  // > (リダイレクト出力)
@@ -30,15 +25,26 @@ typedef enum
 	COMMAND,
 	COMMAND_OPTION,
 	FILE_NAME
->>>>>>> ffd562c95b262524d0e74e84217e6a8f6d89be3e
 } TYPE;
+
+typedef struct s_list_token	t_token;
+typedef struct s_redirect	t_redirect;
 
 typedef struct s_list_token
 {
 	char *arg;
 	TYPE type;
 	int is_freed;
-} t_token;
+	t_redirect *node;
+// struct s_list_token *next;
+}	t_token;
+
+typedef struct	s_pipe
+{
+	t_token *command;
+	struct s_pipe *prev;
+	struct s_pipe *next;
+}	t_pipe;
 
 t_token *ft_tokenizer(char *command);
 

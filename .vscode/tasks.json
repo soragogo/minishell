@@ -8,8 +8,8 @@
                 "-fcolor-diagnostics",
                 "-fansi-escape-codes",
                 "-g",
-                // "${file}",
-                "../*/*.c",
+                "${file}",
+                // "../*/*.c",
                 "-lreadline",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"

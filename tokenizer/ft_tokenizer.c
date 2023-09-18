@@ -1,5 +1,6 @@
 #include "token.h"
 #include <stdbool.h>
+// #include "../includes/minishell.h"
 
 int is_dilimeter(char c)
 {
@@ -95,28 +96,9 @@ t_token *ft_tokenizer(char *command)
 
 	num_of_tokens = count_tokens(command);
 	tokens = (t_token *)malloc(sizeof(t_token) * (num_of_tokens + 1));
-<<<<<<< HEAD
-	ft_token_split(tokens, command, num_of_tokens);
-	// printf("num_of_tokens: [%d]\n", num_of_tokens);
-	// for (int i = 0; tokens[i].arg != NULL; i++)
-	// {
-	// 	puts("------------------");
-	// 	printf("token[%d] :[%s]\n", i, tokens[i].arg);
-	// 	if (tokens[i].type == 0)
-	// 		puts("NON_EXPANDABLE ''");
-	// 	if (tokens[i].type == 1)
-	// 		puts("EXPANDABLE_QUOTED "
-	// 			 "");
-	// 	if (tokens[i].type == 2)
-	// 		puts("PIPE |");
-	// 	if (tokens[i].type == 3)
-	// 		puts("EXPANDABLE 文字列");
-	// }
-=======
 	if (!tokens)
 		return (NULL);
-	ft_split(tokens, command, num_of_tokens);
->>>>>>> ffd562c95b262524d0e74e84217e6a8f6d89be3e
+	ft_token_split(tokens, command, num_of_tokens);
 	return (tokens);
 }
 
@@ -129,19 +111,11 @@ t_token *ft_tokenizer(char *command)
 // 	{
 // 		command = readline("test here> ");
 // 		result = ft_tokenizer(command);
-<<<<<<< HEAD
-// 		for (int i = 0; result[i].arg != NULL; i++)
-// 		{
-// 			printf("arg: [%s]\n", result[i].arg);
-// 			printf("type: [%d]\n", result[i].type);
-// 		}
-=======
 // 		// for (int i = 0; result[i].arg != NULL; i++)
 // 		// {
 // 		// 	printf("arg: [%s]\n", result[i].arg);
 // 		// 	printf("type: [%d]\n", result[i].type);
 // 		// }
->>>>>>> ffd562c95b262524d0e74e84217e6a8f6d89be3e
 // 		free(command);
 // 	}
 // }
