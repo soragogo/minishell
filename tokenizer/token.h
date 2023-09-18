@@ -30,6 +30,8 @@ typedef struct s_list_token
 	char *arg;
 	TYPE type;
 	int is_freed;
+	struct s_list_token *next_token;
+
 } t_token;
 
 t_token *ft_tokenizer(char *command);
