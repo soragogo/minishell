@@ -49,7 +49,7 @@ t_token *search_path(t_token *tokens)
 		tmp = fetch_path(tmp_tokens[i].arg);
 		if (tmp != NULL)
 		{
-			free(tmp_tokens[i].arg);
+			// free(tmp_tokens[i].arg);
 			tmp_tokens[i].arg = tmp;
 		}
 	}
