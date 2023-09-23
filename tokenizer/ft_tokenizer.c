@@ -110,11 +110,11 @@
 	// 	{
 	// 		command = readline("test here> ");
 	// 		result = ft_tokenizer(command);
-	// 		// for (int i = 0; result[i].arg != NULL; i++)
-	// 		// {
-	// 		// 	printf("arg: [%s]\n", result[i].arg);
-	// 		// 	printf("type: [%d]\n", result[i].type);
-	// 		// }
+	// 		for (int i = 0; result[i].arg != NULL; i++)
+	// 		{
+	// 			printf("arg: [%s]\n", result[i].arg);
+	// 			printf("type: [%d]\n", result[i].type);
+	// 		}
 	// 		free(command);
 	// 	}
 	// }

@@ -38,7 +38,7 @@ void connect_tokens(t_token *tokens)
 	}
 }
 
-void ft_parser(t_token *tokens)
+void categorize_tokens(t_token *tokens)
 {
 	int i = 0;
 	int command_flag = 0;
@@ -111,33 +111,33 @@ const char *TYPE_STRINGS[] = {
 	"COMMAND_OPTION",
 	"FILE_NAME"};
 
-void test_parser(char *command)
-{
-	t_token *result;
-	t_command *commands;
-	result = ft_tokenizer(command);
-	ft_parser(result);
-	commands = create_command_pipeline(result);
+// void test_parser(char *command)
+// {
+// 	t_token *result;
+// 	t_command *commands;
+// 	result = ft_tokenizer(command);
+// 	ft_parser(result);
+// 	commands = create_command_pipeline(result);
 
-	for (int i = 0; commands[i].command != NULL; i++)
-	{
-		printf("commands[%d].command->arg = [%s]\n", i, commands[i].command->arg);
-	}
-	puts("--------------------------------");
-	for (int i = 0; result[i].arg != NULL; i++)
-	{
-		printf("arg: %-20s / ", result[i].arg);
-		printf("type: [%s]\n", TYPE_STRINGS[result[i].type]);
-		if (result[i].is_freed != 1)
-		{
-			free(result[i].arg);
-			result[i].is_freed = 1;
-		}
-	}
-	printf("\n");
-	free(result);
-	free(commands);
-}
+// 	for (int i = 0; commands[i].command != NULL; i++)
+// 	{
+// 		printf("commands[%d].command->arg = [%s]\n", i, commands[i].command->arg);
+// 	}
+// 	puts("--------------------------------");
+// 	for (int i = 0; result[i].arg != NULL; i++)
+// 	{
+// 		printf("arg: %-20s / ", result[i].arg);
+// 		printf("type: [%s]\n", TYPE_STRINGS[result[i].type]);
+// 		if (result[i].is_freed != 1)
+// 		{
+// 			free(result[i].arg);
+// 			result[i].is_freed = 1;
+// 		}
+// 	}
+// 	printf("\n");
+// 	free(result);
+// 	free(commands);
+// }
 
 #include <libc.h>
 int main()
@@ -148,10 +148,10 @@ int main()
 	while (1)
 	{
 		buff = readline("test here> ");
-		// result = ft_tokenizer(buff);
-		// ft_parser(result);
+		result = ft_tokenizer(buff);
+		categorize_tokens(result);
 		// commands = create_command_pipeline(result);
-		test_parser(buff);
+		// test_parser(buff);
 		// for (int i = 0; result[i].arg != NULL; i++)
 		// {
 		// 	printf("arg: [%s]\n", result[i].arg);
