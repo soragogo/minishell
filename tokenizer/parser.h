@@ -13,9 +13,26 @@
 #include <signal.h>
 #include "token.h"
 
-typedef struct s_command
+
+typedef struct s_node
 {
-	t_token *command;
-} t_command;
+	int newfd;
+	int stashfd;
+	int oldfd;
+	const char *filename;
+	struct s_node *next;
+	struct s_node *prev;
+
+} t_redirect;
+
+
+typedef struct s_commandset
+{
+	t_redirect *node;
+	char **command;
+	pid_t pid;
+	struct s_commandset *next;
+	struct s_commandset *prev;
+} t_commandset;
 
 #endif
