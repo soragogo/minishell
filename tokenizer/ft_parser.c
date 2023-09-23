@@ -71,15 +71,15 @@ void categorize_tokens(t_token *tokens)
 	}
 }
 
-t_command *create_command_pipeline(t_token *tokens)
+t_commandset *create_command_pipeline(t_token *tokens)
 {
-	t_command *commands;
+	t_commandset *commands;
 	int num_of_commmands = count_commands(tokens);
 	int i = 1;
 	int j = 1;
 
 	connect_tokens(tokens);
-	commands = malloc(sizeof(t_command) * num_of_commmands + 1);
+	commands = malloc(sizeof(t_commandset) * num_of_commmands + 1);
 	commands[0].command = &tokens[0];
 
 	while (tokens[i].arg != NULL)
@@ -143,7 +143,7 @@ const char *TYPE_STRINGS[] = {
 int main()
 {
 	t_token *result;
-	// t_command *commands;
+	// t_commandset *commands;
 	char *buff;
 	while (1)
 	{
