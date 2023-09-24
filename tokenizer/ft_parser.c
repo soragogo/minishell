@@ -140,7 +140,7 @@ void import_command(t_token *tokens, t_commandset *commandsets, int num_of_comma
 	while (i < num_of_commands)
 	{
 		count = count_command(tokens);
-		commandsets[i].command = malloc(sizeof(char *)* (count + 1));
+		commandsets[i].command = malloc(sizeof(char *) * (count + 1));
 
 		while (tokens[j].arg != NULL && tokens[j].type != PIPE)
 		{
@@ -161,10 +161,7 @@ void import_command(t_token *tokens, t_commandset *commandsets, int num_of_comma
 		// }
 		i++;
 	}
-
 }
-
-
 
 ////////////////////////////ここからテスト関数など/////////////////////////////////
 
@@ -210,7 +207,6 @@ const char *TYPE_STRINGS[] = {
 // 	free(commands);
 // }
 
-
 #include <libc.h>
 int main()
 {
@@ -231,12 +227,11 @@ int main()
 		for (int i = 0; i < 2; i++)
 		{
 			cmd = commandsets[i].command;
-			while(*cmd)
+			while (*cmd)
 			{
 				printf("%s\n", *cmd);
 				cmd++;
 			}
-
 		}
 		// test_parser(buff);
 		// for (int i = 0; tokens[i].arg != NULL; i++)
