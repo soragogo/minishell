@@ -224,7 +224,7 @@ int main()
 		printf("num_of_commands: [%d]\n", num_of_commands);
 		commandsets = create_command_pipeline(tokens, num_of_commands);
 		import_command(tokens, commandsets, num_of_commands);
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < num_of_commands; i++)
 		{
 			cmd = commandsets[i].command;
 			while (*cmd)
