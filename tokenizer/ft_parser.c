@@ -80,7 +80,7 @@ t_commandset *create_command_pipeline(t_token *tokens, int num_of_commands)
 	// int j = 1;
 
 	// connect_tokens(tokens);
-	commandsets = malloc(sizeof(t_commandset) * num_of_commands);
+	commandsets = calloc(num_of_commands, sizeof(t_commandset) );
 
 	int i = 1;
 	commandsets[0].prev = NULL;
@@ -140,7 +140,7 @@ void import_command(t_token *tokens, t_commandset *commandsets, int num_of_comma
 	while (i < num_of_commands)
 	{
 		count = count_command(tokens);
-		commandsets[i].command = malloc(sizeof(char *) * (count + 1));
+		commandsets[i].command = calloc(count + 1, sizeof(char *));
 
 		while (tokens[j].arg != NULL && tokens[j].type != PIPE)
 		{
@@ -168,16 +168,7 @@ void import_command(t_token *tokens, t_commandset *commandsets, int num_of_comma
 #include "token.h"
 #include <stdio.h>
 
-const char *TYPE_STRINGS[] = {
-	"UNCATEGORIZED",
-	"PIPE",			 // | (パイプ)
-	"REDIRECT_OUT",	 // > (リダイレクト出力)
-	"REDIRECT_IN",	 // < (リダイレクト入力)
-	"APPEND_OUT",	 // >> (出力の追加)
-	"HERE_DOCUMENT", // << (ヒアドキュメント)
-	"COMMAND",
-	"COMMAND_OPTION",
-	"FILE_NAME"};
+
 
 #include <libc.h>
 int main()
@@ -186,7 +177,6 @@ int main()
 	t_commandset *commandsets;
 	int num_of_commands;
 	char *buff;
-	char **cmd;
 	while (1)
 	{
 		buff = readline("test here> ");
@@ -197,26 +187,8 @@ int main()
 		commandsets = create_command_pipeline(tokens, num_of_commands);
 		import_command(tokens, commandsets, num_of_commands);
 		import_redirection(tokens, commandsets, num_of_commands);
-		for (int i = 0; i < num_of_commands; i++)
-		{
-			cmd = commandsets[i].command;
-			while (*cmd)
-			{
-				printf("%s\n", *cmd);
-				cmd++;
-			}
-			for (int a = 0; a < 2; a++)
-			{
-				printf("commandsets: %s\n", commandsets[i].node->filename);
-				commandsets[i].node++;
-			}
-		}
-		// test_parser(buff);
-		// for (int i = 0; tokens[i].arg != NULL; i++)
-		// {
-		// 	printf("arg: [%s]\n", tokens[i].arg);
-		// 	printf("type: [%d]\n", tokens[i].type);
-		// }
+		test_commandsets(commandsets, num_of_commands);
 		free(buff);
 	}
 }
+

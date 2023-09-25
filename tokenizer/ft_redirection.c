@@ -3,10 +3,19 @@
 #include <stdbool.h>
 #include <libc.h>
 
-int count_redirection(t_token *tokens)
+int count_redirection(t_token *tokens, int current_pipe)
 {
 	int i = 0;
 	int count = 0;
+
+	while (current_pipe)
+	{
+		while(tokens[i].arg && tokens[i].type != PIPE)
+			i++;
+		if (tokens[i].type  == PIPE)
+			i++;
+		current_pipe--;
+	}
 
 	while (tokens[i].arg != NULL && tokens[i].type != PIPE)
 	{
@@ -14,18 +23,31 @@ int count_redirection(t_token *tokens)
 			count++;
 		i++;
 	}
+	printf("count_of_redirections: %d\n", count);
 	return count;
 }
 
 void connect_redirections(t_redirect *node, int count)
 {
-	int i = 0;
-	while (i < count)
-	{
+    if (count <= 0)
+		return;
 
-		i++;
-	}
+    node[0].prev = NULL;
+    node[0].next = (count > 1) ? &node[1] : NULL;
+
+    for (int i = 1; i < count - 1; i++)
+    {
+        node[i].prev = &node[i - 1];
+        node[i].next = &node[i + 1];
+    }
+
+    if (count > 1)
+    {
+        node[count - 1].prev = &node[count - 2];
+        node[count - 1].next = NULL;
+    }
 }
+
 
 void import_redirection(t_token *tokens, t_commandset *commandsets, int num_of_commands)
 {
@@ -36,21 +58,28 @@ void import_redirection(t_token *tokens, t_commandset *commandsets, int num_of_c
 
 	while (i < num_of_commands)
 	{
-		count = count_redirection(tokens);
-		commandsets[i].node = malloc(sizeof(char *) * (count));
+		count = count_redirection(tokens, i);
+		commandsets[i].node = calloc(count, sizeof(t_redirect));
 		connect_redirections(commandsets[i].node, count);
 		while (tokens[j].arg != NULL && tokens[j].type != PIPE)
 		{
+			// printf("%s\n", tokens[j].arg);
 			if (tokens[j].type >= REDIRECT_OUT && tokens[j].type <= HERE_DOCUMENT)
 			{
 				if (tokens[j + 1].type == FILE_NAME)
+				{
 					commandsets[i].node[k].filename = tokens[j + 1].arg;
+					printf("inserting file name..... i:[%d] j:[%d] k:[%d] [%s]\n", i, j, k, tokens[j + 1].arg);
+					j++;
+				}
 				k++;
 			}
 			j++;
 		}
+		commandsets[i].node[k].filename = NULL;
+		printf("inserting file name..... i:[%d] j:[%d] k:[%d] [%s]\n", i, j, k, NULL);
 		k = 0;
-		if (tokens[j].type == PIPE)
+		if (tokens[j].type == PIPE && tokens[j + 1].arg)
 			j++;
 		i++;
 	}

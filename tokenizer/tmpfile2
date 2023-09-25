@@ -1,0 +1,12 @@
+total 104
+-rw-r--r--  1 ekamada  2020    312  9 23 13:18 Makefile
+-rwxr-xr-x  1 ekamada  2020  13632  9 25 18:03 a.out
+-rw-r--r--  1 ekamada  2020   5084  9 25 18:03 ft_parser.c
+-rw-r--r--  1 ekamada  2020   1279  9 25 18:02 ft_redirection.c
+-rw-r--r--  1 ekamada  2020   2229  9 23 13:54 ft_tokenizer.c
+-rw-r--r--  1 ekamada  2020    817  9 23 13:18 getpath.c
+-rw-r--r--  1 ekamada  2020   1509  9 23 13:18 main2.c
+-rw-r--r--  1 ekamada  2020    672  9 25 17:06 parser.h
+-rw-r--r--  1 ekamada  2020      0  9 25 18:04 tmpfile
+-rw-r--r--  1 ekamada  2020      0  9 25 18:04 tmpfile2
+-rw-r--r--  1 ekamada  2020    710  9 23 13:51 token.h

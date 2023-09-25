@@ -34,5 +34,6 @@ typedef struct s_commandset
 } t_commandset;
 
 void import_redirection(t_token *tokens, t_commandset *commandsets, int num_of_commands);
+void test_commandsets(t_commandset *commandsets, int num_of_commands);
 
 #endif
