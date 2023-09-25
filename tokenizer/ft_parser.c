@@ -179,34 +179,6 @@ const char *TYPE_STRINGS[] = {
 	"COMMAND_OPTION",
 	"FILE_NAME"};
 
-// void test_parser(char *command)
-// {
-// 	t_token *result;
-// 	t_command *commands;
-// 	result = ft_tokenizer(command);
-// 	ft_parser(result);
-// 	commands = create_command_pipeline(result);
-
-// 	for (int i = 0; commands[i].command != NULL; i++)
-// 	{
-// 		printf("commands[%d].command->arg = [%s]\n", i, commands[i].command->arg);
-// 	}
-// 	puts("--------------------------------");
-// 	for (int i = 0; result[i].arg != NULL; i++)
-// 	{
-// 		printf("arg: %-20s / ", result[i].arg);
-// 		printf("type: [%s]\n", TYPE_STRINGS[result[i].type]);
-// 		if (result[i].is_freed != 1)
-// 		{
-// 			free(result[i].arg);
-// 			result[i].is_freed = 1;
-// 		}
-// 	}
-// 	printf("\n");
-// 	free(result);
-// 	free(commands);
-// }
-
 #include <libc.h>
 int main()
 {
@@ -224,6 +196,7 @@ int main()
 		printf("num_of_commands: [%d]\n", num_of_commands);
 		commandsets = create_command_pipeline(tokens, num_of_commands);
 		import_command(tokens, commandsets, num_of_commands);
+		import_redirection(tokens, commandsets, num_of_commands);
 		for (int i = 0; i < num_of_commands; i++)
 		{
 			cmd = commandsets[i].command;
@@ -231,6 +204,11 @@ int main()
 			{
 				printf("%s\n", *cmd);
 				cmd++;
+			}
+			for (int a = 0; a < 2; a++)
+			{
+				printf("commandsets: %s\n", commandsets[i].node->filename);
+				commandsets[i].node++;
 			}
 		}
 		// test_parser(buff);

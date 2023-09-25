@@ -13,7 +13,6 @@
 #include <signal.h>
 #include "token.h"
 
-
 typedef struct s_node
 {
 	int newfd;
@@ -25,7 +24,6 @@ typedef struct s_node
 
 } t_redirect;
 
-
 typedef struct s_commandset
 {
 	t_redirect *node;
@@ -34,5 +32,7 @@ typedef struct s_commandset
 	struct s_commandset *next;
 	struct s_commandset *prev;
 } t_commandset;
+
+void import_redirection(t_token *tokens, t_commandset *commandsets, int num_of_commands);
 
 #endif
