@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_redirection.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/25 19:38:37 by ekamada           #+#    #+#             */
+/*   Updated: 2023/09/25 19:48:41 by ekamada          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "token.h"
 #include "parser.h"
 #include <stdbool.h>
@@ -59,7 +71,7 @@ void import_redirection(t_token *tokens, t_commandset *commandsets, int num_of_c
 	while (i < num_of_commands)
 	{
 		count = count_redirection(tokens, i);
-		commandsets[i].node = calloc(count, sizeof(t_redirect));
+		commandsets[i].node = ft_calloc(count, sizeof(t_redirect));
 		connect_redirections(commandsets[i].node, count);
 		while (tokens[j].arg != NULL && tokens[j].type != PIPE)
 		{
@@ -69,7 +81,7 @@ void import_redirection(t_token *tokens, t_commandset *commandsets, int num_of_c
 				if (tokens[j + 1].type == FILE_NAME)
 				{
 					commandsets[i].node[k].filename = tokens[j + 1].arg;
-					printf("inserting file name..... i:[%d] j:[%d] k:[%d] [%s]\n", i, j, k, tokens[j + 1].arg);
+					// printf("inserting file name..... i:[%d] j:[%d] k:[%d] [%s]\n", i, j, k, tokens[j + 1].arg);
 					j++;
 				}
 				k++;
@@ -77,7 +89,7 @@ void import_redirection(t_token *tokens, t_commandset *commandsets, int num_of_c
 			j++;
 		}
 		commandsets[i].node[k].filename = NULL;
-		printf("inserting file name..... i:[%d] j:[%d] k:[%d] [%s]\n", i, j, k, NULL);
+		// printf("inserting file name..... i:[%d] j:[%d] k:[%d] [%s]\n", i, j, k, NULL);
 		k = 0;
 		if (tokens[j].type == PIPE && tokens[j + 1].arg)
 			j++;

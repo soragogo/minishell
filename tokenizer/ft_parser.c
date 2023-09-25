@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parser.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/25 19:38:41 by ekamada           #+#    #+#             */
+/*   Updated: 2023/09/25 19:48:33 by ekamada          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "token.h"
 #include "parser.h"
 #include <stdbool.h>
@@ -17,27 +29,6 @@ int count_commandset(t_token *tokens)
 	}
 	return count;
 }
-
-// void connect_tokens(t_token *tokens)
-// {
-// 	int i = 0;
-// 	while (tokens[i].arg != NULL)
-// 	{
-// 		if (tokens[i].type == PIPE)
-// 		{
-// 			tokens[i].next_token = NULL;
-// 		}
-// 		else if (tokens[i + 1].type == PIPE || tokens[i + 1].arg == NULL)
-// 		{
-// 			tokens[i].next_token = NULL;
-// 		}
-// 		else
-// 		{
-// 			tokens[i].next_token = &tokens[i + 1];
-// 		}
-// 		i++;
-// 	}
-// }
 
 void categorize_tokens(t_token *tokens)
 {
@@ -75,12 +66,8 @@ void categorize_tokens(t_token *tokens)
 t_commandset *create_command_pipeline(t_token *tokens, int num_of_commands)
 {
 	t_commandset *commandsets;
-	// int num_of_commmands = count_commandset(tokens);
-	// int i = 1;
-	// int j = 1;
 
-	// connect_tokens(tokens);
-	commandsets = calloc(num_of_commands, sizeof(t_commandset) );
+	commandsets = ft_calloc(num_of_commands, sizeof(t_commandset));
 
 	int i = 1;
 	commandsets[0].prev = NULL;
@@ -97,22 +84,7 @@ t_commandset *create_command_pipeline(t_token *tokens, int num_of_commands)
 		commandsets[num_of_commands - 1].prev = &commandsets[num_of_commands - 2];
 	i = 0;
 	while (commandsets[i].next != NULL)
-	{
 		i++;
-	}
-	printf("commandset の長さ: %d\n", i + 1);
-	// commandsets[0].command = &tokens[0];
-
-	// while (tokens[i].arg != NULL)
-	// {
-	// 	if (tokens[i - 1].next_token == NULL && tokens[i].type != PIPE)
-	// 	{
-	// 		commandsets[j].command = &tokens[i];
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
-	// commandsets[j].command = NULL;
 	return commandsets;
 }
 
@@ -140,7 +112,7 @@ void import_command(t_token *tokens, t_commandset *commandsets, int num_of_comma
 	while (i < num_of_commands)
 	{
 		count = count_command(tokens);
-		commandsets[i].command = calloc(count + 1, sizeof(char *));
+		commandsets[i].command = ft_calloc(count + 1, sizeof(char *));
 
 		while (tokens[j].arg != NULL && tokens[j].type != PIPE)
 		{
@@ -155,39 +127,37 @@ void import_command(t_token *tokens, t_commandset *commandsets, int num_of_comma
 		k = 0;
 		if (tokens[j].type == PIPE)
 			j++;
-		// for (int a = 0; commandsets[i].command[a] != NULL; a++)
-		// {
-		// 	printf("command[%d]: %s\n", a, commandsets[i].command[a]);
-		// }
 		i++;
 	}
 }
 
-////////////////////////////ここからテスト関数など/////////////////////////////////
-
-#include "token.h"
-#include <stdio.h>
-
-
-
-#include <libc.h>
-int main()
+void ft_parser(char *buff)
 {
 	t_token *tokens;
 	t_commandset *commandsets;
 	int num_of_commands;
+
+	tokens = ft_tokenizer(buff);
+	categorize_tokens(tokens);
+	num_of_commands = count_commandset(tokens);
+	printf("num_of_commands: [%d]\n", num_of_commands);
+	commandsets = create_command_pipeline(tokens, num_of_commands);
+	import_command(tokens, commandsets, num_of_commands);
+	import_redirection(tokens, commandsets, num_of_commands);
+	test_commandsets(commandsets, num_of_commands);
+}
+
+#include "token.h"
+#include <stdio.h>
+#include <libc.h>
+int main()
+{
+
 	char *buff;
 	while (1)
 	{
 		buff = readline("test here> ");
-		tokens = ft_tokenizer(buff);
-		categorize_tokens(tokens);
-		num_of_commands = count_commandset(tokens);
-		printf("num_of_commands: [%d]\n", num_of_commands);
-		commandsets = create_command_pipeline(tokens, num_of_commands);
-		import_command(tokens, commandsets, num_of_commands);
-		import_redirection(tokens, commandsets, num_of_commands);
-		test_commandsets(commandsets, num_of_commands);
+		ft_parser(buff);
 		free(buff);
 	}
 }
