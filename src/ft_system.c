@@ -19,7 +19,7 @@ int ft_system(t_token *tokens, int *status)
 	char *token_twod[10000];
 	int i = 0;
 
-	search_path(tokens);
+	// search_path(tokens);
 	while (tokens[i].arg != NULL)
 	{
 		token_twod[i] = tokens[i].arg;

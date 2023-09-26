@@ -40,20 +40,23 @@ char *fetch_path(char *file)
 	return (NULL);
 }
 
-t_token *search_path(t_token *tokens)
+char *search_path(char *command)
 {
-	t_token *tmp_tokens = tokens;
-	char *tmp;
-	for (int i = 0; tmp_tokens[i].arg != NULL; i++)
-	{
-		tmp = fetch_path(tmp_tokens[i].arg);
-		if (tmp != NULL)
-		{
-			// free(tmp_tokens[i].arg);
-			tmp_tokens[i].arg = tmp;
-		}
-	}
-	return (tmp_tokens);
+	// t_token *tmp_tokens = tokens;
+
+	char **tmp = &command;
+	char *ret;
+	// for (int i = 0; tmp_tokens[i].arg != NULL; i++)
+	// for (int i = 0; tmp[i] != NULL; i++)
+	// {
+		ret = fetch_path(tmp[0]);
+		// if (tmp != NULL)
+		// {
+		// 	// free(tmp_tokens[i].arg);
+		// 	ret = tmp[i];
+		// }
+	// }
+	return (ret);
 }
 
 // #include "../includes/minishell.h"
