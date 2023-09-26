@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emukamada <emukamada@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:41 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/25 19:48:33 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/09/26 23:16:02 by emukamada        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int count_command(t_token *tokens)
 
 	while (tokens[i].arg != NULL && tokens[i].type != PIPE)
 	{
-		if (tokens[i].type == COMMAND || tokens[i].type == COMMAND_OPTION)
+		if (tokens[i].type == COMMAND || tokens[i].type == COMMAND_OPTION || tokens[i].type == FILE_NAME)
 			count++;
 		i++;
 	}
@@ -116,7 +116,7 @@ void import_command(t_token *tokens, t_commandset *commandsets, int num_of_comma
 
 		while (tokens[j].arg != NULL && tokens[j].type != PIPE)
 		{
-			if (tokens[j].type == COMMAND || tokens[j].type == COMMAND_OPTION)
+			if (tokens[j].type == COMMAND || tokens[j].type == COMMAND_OPTION || tokens[j].type == FILE_NAME)
 			{
 				commandsets[i].command[k] = tokens[j].arg;
 				k++;
@@ -161,4 +161,3 @@ int main()
 		free(buff);
 	}
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emukamada <emukamada@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:34 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/25 19:38:36 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/09/26 22:14:46 by emukamada        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,17 @@
 #include <readline/history.h>
 #include <signal.h>
 #include "token.h"
+#include "../libft/libft.h"
 
 typedef struct s_node
 {
 	int newfd;
 	int stashfd;
 	int oldfd;
+	TYPE type;
 	const char *filename;
 	struct s_node *next;
 	struct s_node *prev;
-
 } t_redirect;
 
 typedef struct s_commandset

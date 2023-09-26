@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emukamada <emukamada@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:37 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/25 19:48:41 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/09/26 23:00:39 by emukamada        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int count_redirection(t_token *tokens, int current_pipe)
 
 	while (current_pipe)
 	{
-		while(tokens[i].arg && tokens[i].type != PIPE)
+		while (tokens[i].arg && tokens[i].type != PIPE)
 			i++;
-		if (tokens[i].type  == PIPE)
+		if (tokens[i].type == PIPE)
 			i++;
 		current_pipe--;
 	}
@@ -41,25 +41,24 @@ int count_redirection(t_token *tokens, int current_pipe)
 
 void connect_redirections(t_redirect *node, int count)
 {
-    if (count <= 0)
+	if (count <= 0)
 		return;
 
-    node[0].prev = NULL;
-    node[0].next = (count > 1) ? &node[1] : NULL;
+	node[0].prev = NULL;
+	node[0].next = (count > 1) ? &node[1] : NULL;
 
-    for (int i = 1; i < count - 1; i++)
-    {
-        node[i].prev = &node[i - 1];
-        node[i].next = &node[i + 1];
-    }
+	for (int i = 1; i < count - 1; i++)
+	{
+		node[i].prev = &node[i - 1];
+		node[i].next = &node[i + 1];
+	}
 
-    if (count > 1)
-    {
-        node[count - 1].prev = &node[count - 2];
-        node[count - 1].next = NULL;
-    }
+	if (count > 1)
+	{
+		node[count - 1].prev = &node[count - 2];
+		node[count - 1].next = NULL;
+	}
 }
-
 
 void import_redirection(t_token *tokens, t_commandset *commandsets, int num_of_commands)
 {
@@ -80,6 +79,7 @@ void import_redirection(t_token *tokens, t_commandset *commandsets, int num_of_c
 			{
 				if (tokens[j + 1].type == FILE_NAME)
 				{
+					commandsets[i].node[k].type = tokens[j].type;
 					commandsets[i].node[k].filename = tokens[j + 1].arg;
 					// printf("inserting file name..... i:[%d] j:[%d] k:[%d] [%s]\n", i, j, k, tokens[j + 1].arg);
 					j++;
