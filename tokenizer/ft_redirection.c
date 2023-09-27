@@ -6,7 +6,7 @@
 /*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:37 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/27 19:23:04 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/09/27 21:28:09 by ekamada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,12 @@ int count_redirection(t_token *tokens, int current_pipe)
 			i++;
 		current_pipe--;
 	}
-
 	while (tokens[i].arg != NULL && tokens[i].type != PIPE)
 	{
 		if (tokens[i].type >= REDIRECT_OUT && tokens[i].type <= HERE_DOCUMENT)
 			count++;
 		i++;
 	}
-	printf("count_of_redirections: %d\n", count);
 	return count;
 }
 
@@ -52,7 +50,6 @@ void connect_redirections(t_redirect *node, int count)
 		node[i].prev = &node[i - 1];
 		node[i].next = &node[i + 1];
 	}
-
 	if (count > 1)
 	{
 		node[count - 1].prev = &node[count - 2];
@@ -74,14 +71,12 @@ void import_redirection(t_token *tokens, t_commandset *commandsets, int num_of_c
 		connect_redirections(commandsets[i].node, count);
 		while (tokens[j].arg != NULL && tokens[j].type != PIPE)
 		{
-			// printf("%s\n", tokens[j].arg);
 			if (tokens[j].type >= REDIRECT_OUT && tokens[j].type <= HERE_DOCUMENT)
 			{
 				if (tokens[j + 1].type == FILE_NAME)
 				{
 					commandsets[i].node[k].type = tokens[j].type;
 					commandsets[i].node[k].filename = tokens[j + 1].arg;
-					// printf("inserting file name..... i:[%d] j:[%d] k:[%d] [%s]\n", i, j, k, tokens[j + 1].arg);
 					j++;
 				}
 				k++;
@@ -89,7 +84,6 @@ void import_redirection(t_token *tokens, t_commandset *commandsets, int num_of_c
 			j++;
 		}
 		commandsets[i].node[k].filename = NULL;
-		// printf("inserting file name..... i:[%d] j:[%d] k:[%d] [%s]\n", i, j, k, NULL);
 		k = 0;
 		if (tokens[j].type == PIPE && tokens[j + 1].arg)
 			j++;

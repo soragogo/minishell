@@ -6,7 +6,7 @@
 /*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:44 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/27 19:26:38 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/09/27 20:12:31 by ekamada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void split_into_tokens(t_token * tokens, char *command, int num_of_tokens)
 	end = find_end_of_arg(command);
 	while (i < num_of_tokens)
 	{
-		tokens[i].arg = malloc(sizeof(char) * (end - start + 2));
+		tokens[i].arg = ft_calloc(end - start + 2, sizeof(char));
 		tokens[i].is_freed = 0;
 		strlcpy(tokens[i].arg, start, end - start + 2);
 		start = end + 1;

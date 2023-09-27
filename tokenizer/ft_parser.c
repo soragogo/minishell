@@ -6,7 +6,7 @@
 /*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:41 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/27 19:32:40 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/09/27 21:26:57 by ekamada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,43 @@ void import_command(t_token *tokens, t_commandset *commandsets, int num_of_comma
 		i++;
 	}
 }
+void free_parser(t_commandset *commandsets)
+{
+	t_commandset *tmp_cmdset;
+	t_redirect *redirect;
+	t_redirect *tmp_redirect;
+
+	while (commandsets != NULL)
+	{
+		tmp_cmdset = commandsets;
+		commandsets = tmp_cmdset->next;
+
+		// Free each string in the command array
+		if (tmp_cmdset->command)
+		{
+			char **cmd = tmp_cmdset->command;
+			while (*cmd)
+			{
+				free(*cmd);
+				cmd++;
+			}
+			free(tmp_cmdset->command);
+		}
+
+		// Free redirect nodes
+		redirect = tmp_cmdset->node;
+		while (redirect != NULL)
+		{
+			tmp_redirect = redirect;
+			redirect = tmp_redirect->next;
+			free(tmp_redirect);
+		}
+
+		// Free the current command set node
+		free(tmp_cmdset);
+	}
+}
+
 
 void ft_parser(char *buff)
 {
@@ -146,6 +183,8 @@ void ft_parser(char *buff)
 	import_command(tokens, commandsets, num_of_commands);
 	import_redirection(tokens, commandsets, num_of_commands);
 	test_commandsets(commandsets, num_of_commands);
+	free(tokens);
+	free_parser(commandsets);
 }
 
 #include "token.h"
