@@ -1,5 +1,6 @@
 #include "token.h"
 #include <stdbool.h>
+// #include "../includes/minishell.h"
 
 int is_dilimeter(char c)
 {
@@ -62,7 +63,7 @@ int count_tokens(char *command)
 	return (count);
 }
 
-void ft_split(t_token *tokens, char *command, int num_of_tokens)
+void ft_token_split(t_token *tokens, char *command, int num_of_tokens)
 {
 	char *start;
 	char *end;
@@ -97,7 +98,7 @@ t_token *ft_tokenizer(char *command)
 	tokens = (t_token *)malloc(sizeof(t_token) * (num_of_tokens + 1));
 	if (!tokens)
 		return (NULL);
-	ft_split(tokens, command, num_of_tokens);
+	ft_token_split(tokens, command, num_of_tokens);
 	return (tokens);
 }
 

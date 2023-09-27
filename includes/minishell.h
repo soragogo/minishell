@@ -14,47 +14,18 @@
 
 #include "../libft/libft.h"
 #include "../tokenizer/token.h"
+#include "../tokenizer/parser.h"
 
 
 int ft_system(t_token *tokens, int *status);
 // int ft_chdir(char *command_buf);
 void ft_signals(void);
 void waitline();
-t_token *search_path(t_token *tokens);
+char *search_path(char *command);
 
 
-// typedef struct s_list_token
-// {
-// 	char *arg;					//入力された文字
-// 	TYPE type;					//種類
-// 	int is_freed;				//フリーしてない場合->０ フリーされている場合->１
-// 	//struct s_list_token *next;//配列でもいいか
-// } t_token;
-
-	// /* pipe */
-    // //pipefd[0]->読み出し側, pipefd[1]->書き込み側
-	// int inpipe[2];
-	// int outpipe[2];
-
-
-// typedef struct s_token	t_token;
-typedef struct s_redirect	t_redirect;
 typedef struct s_env	t_env;
 typedef struct s_info	t_info;
-
-typedef struct s_redirect
-{
-	const char *filename;
-	t_token *args;
-
-	/* redirection */
-	int newfd;		//bのfd
-	int stashfd;	//一時保存
-	int oldfd;		//a>b -> STDOUT_FILENO, a<b -> STDIN_FILENO a
-	t_redirect	*next;
-	t_redirect	*prev;
-} t_redirect;
-
 
 typedef struct s_env
 {
@@ -67,18 +38,11 @@ typedef struct	s_info
 {
 	t_env	*map_head;			//環境変数のリスト
 	int		exit_status_log;	//直前のコマンドの終了ステータス
-	t_token *tokens;			//
+	// t_token *tokens;			//
+	// t_command *command;
+
 }	t_info;
 
-// typedef struct s_node
-// {
-// 	int newfd;		//bのfd
-// 	int stashfd;	//一時保存
-// 	int oldfd;		//a>b -> STDOUT_FILENO, a<b -> STDIN_FILENO a
-// 	const char *filename;
-// 	struct s_node	*next;
-// 	// struct s_node	*prev;
-// }	t_redirect;
 
 // int ft_system(char *command, int *status);
 // int ft_chdir(char *command_buf);
@@ -96,6 +60,8 @@ void	add_new(t_env **map, t_env *new_env);
 void	env_unset(t_env **env_head, char *delete_env_key);
 char	*map_get(t_env **env_head, char *name);
 void	free_map(t_env **map);
+char **create_environ(t_env **env_head);
+
 
 	/* builtin command */
 int	ft_echo(t_token *tokens, int status);
@@ -116,6 +82,10 @@ void undo_redirect(t_redirect *node);
 int heredoc(const char *delimiter);
 
 	/* utils */
-int is_builtin(t_token *tokens, t_info *info);
+int is_builtin(t_commandset *command);
+int exec_builtin(t_commandset *commands, t_info *info);
+char **join(char const *s1, char const *s2, char **environ);
+void env_join(char *name, char *value, char **environ);
+
 
 #endif

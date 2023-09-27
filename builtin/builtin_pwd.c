@@ -12,7 +12,8 @@ int ft_pwd()//char *command_buf
 		printf("error: getcwd");
 		return (1);
 	}//ここはあとで
-	printf("%s\n", envp);
+	// printf("%s\n", envp);
+	write(STDOUT_FILENO, envp, ft_strlen(envp));
 	free (envp);
 	return (0);
 }
