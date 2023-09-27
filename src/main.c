@@ -29,7 +29,7 @@
 // 	t_token *tokens;
 // 	t_env *env;
 // 	t_info info;
-// 	t_command *commands;
+// 	t_commandset *commands;
 	
 // 	envmap_init(&env);//info_initの方がいいか
 // 	info.map_head = env;

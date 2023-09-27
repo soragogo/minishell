@@ -3,7 +3,7 @@
 #include "../tokenizer/parser.h"
 
 //コマンドがbuiltinかを確かめる関数
-int is_builtin(t_command *command){
+int is_builtin(t_commandset *command){
 	const char *builtin[] = {"cd", "pwd", "export", "unset", "env", "exit", NULL};
 	int i = 0;
 
@@ -17,11 +17,13 @@ int is_builtin(t_command *command){
 }
 
 //builtinコマンドを実行する関数
-int exec_builtin(t_command *commands, t_info *info)
+int exec_builtin(t_commandset *commands, t_info *info)
 {
 	int status;
 
 	status = 0;
+	//後でredirectの処理を書く
+
 	// if (strcmp(commands[0].command->arg, "echo") == 0)
 	// 	status = ft_echo(commands[0], info->exit_status_log);
 	// else if (strcmp(commands[0].command->arg, "cd") == 0)
@@ -42,7 +44,7 @@ int exec_builtin(t_command *commands, t_info *info)
 	return (status);
 }
 
-void handle_pipe(int left_pipe[2], int right_pipe[2], t_command *command)
+void handle_pipe(int left_pipe[2], int right_pipe[2], t_commandset *command)
 {
 	if (command->prev)
 	{
@@ -60,14 +62,14 @@ void handle_pipe(int left_pipe[2], int right_pipe[2], t_command *command)
 	}
 }
 
-void create_pipe(t_command *command, int new_pipe[2]){
+void create_pipe(t_commandset *command, int new_pipe[2]){
 	if (command->next){
 		if (pipe(new_pipe) < 0)
 			printf("pipe error");
 	}
 }
 
-int exec_command(t_command *commands, t_info *info){
+int exec_command(t_commandset *commands, t_info *info){
 	int status;
 	static int new_pipe[2];
 	static int old_pipe[2];
@@ -77,12 +79,12 @@ int exec_command(t_command *commands, t_info *info){
 	create_pipe(commands, new_pipe);
 	if ((pid = fork()) < 0)
 		return (-1);
-	else if (pid == 0){//子プロセス
-	// pid = 0;
-	// if (pid == 0){//子プロセス
+	// else if (pid == 0){//子プロセス
+	pid = 0;
+	if (pid == 0){//子プロセス
 		printf("子プロセス\n");
 		handle_pipe(old_pipe, new_pipe, commands);
-		
+		do_redirect(commands->node);
 		if (is_builtin(commands) != -1)
 		{
 			// write(1, "builtin\n", 8);
@@ -93,6 +95,7 @@ int exec_command(t_command *commands, t_info *info){
 			// write(1, "not builtin\n", 12);
 			char *path = search_path(*commands->command);//path作るの失敗してる
 			char **my_environ = create_environ(&(info->map_head));
+			write(1, "path: [%s]\n", strlen(path) + 1);
 			status = execve(path, commands->command, my_environ);
 			if (status == -1)
 				perror("execve");
@@ -104,7 +107,7 @@ int exec_command(t_command *commands, t_info *info){
 	return (status);
 }
 
-void wait_command(t_command *commands){
+void wait_command(t_commandset *commands){
 	int status;
 	printf("wait_command\n");
 	if (waitpid(commands->pid, &status, 0) < 0)
@@ -112,7 +115,7 @@ void wait_command(t_command *commands){
 }
 
 
-int handle_command(t_command *commands, t_info *info){
+int handle_command(t_commandset *commands, t_info *info){
 	int status;
 
 	status = 0;
@@ -138,51 +141,51 @@ int handle_command(t_command *commands, t_info *info){
 /* --------------------------------------------------------- */
 
 
-#include "../includes/minishell.h"
-#include "../tokenizer/token.h"
-#include "../tokenizer/parser.h"
+// #include "../includes/minishell.h"
+// #include "../tokenizer/token.h"
+// #include "../tokenizer/parser.h"
 
-int main() {
-    t_command commands[2];
+// int main() {
+//     t_commandset commands[2];
     
-    // コマンド1
-    commands[0].command = malloc(sizeof(char *) * 1);
-	commands[0].command[0] = "ls";
-	// commands[0].command[1] = "a.out";
-	commands[0].node = (t_redirect *)malloc(sizeof(t_redirect));
-	commands[0].node->oldfd = 1;
-    // commands[0].command = {"cat", "a.out"};
-	commands[0].next = &commands[1];
-	// commands[0].next = NULL;
-	commands[0].prev = NULL;
+//     // コマンド1
+//     commands[0].command = malloc(sizeof(char *) * 1);
+// 	commands[0].command[0] = "ls";
+// 	// commands[0].command[1] = "a.out";
+// 	commands[0].node = (t_redirect *)malloc(sizeof(t_redirect));
+// 	commands[0].node->oldfd = 1;
+//     // commands[0].command = {"cat", "a.out"};
+// 	commands[0].next = &commands[1];
+// 	// commands[0].next = NULL;
+// 	commands[0].prev = NULL;
     
-    // コマンド2
-    commands[1].command = malloc(sizeof(char *) * 1);
-	commands[1].command[0] = "wc";
-	// commands[1].command[1] = "../";
-	commands[1].node = (t_redirect *)malloc(sizeof(t_redirect));
-	commands[1].node->oldfd = 1;
-    // commands[0].command = {"cat", "a.out"}; // 実行したいコマンドのパスを指定します。
-	commands[1].next = NULL;
-	commands[1].prev = &commands[0];
-    // コマンドを実行
-    t_env *map;
-	map = map_new();
-    envmap_init(&map);
-	t_info info;
-	info.map_head = map;
-    int status = handle_command(commands, &info);
+//     // コマンド2
+//     commands[1].command = malloc(sizeof(char *) * 1);
+// 	commands[1].command[0] = "wc";
+// 	// commands[1].command[1] = "a";
+// 	commands[1].node = (t_redirect *)malloc(sizeof(t_redirect));
+// 	commands[1].node->oldfd = 1;
+//     // commands[0].command = {"cat", "a.out"}; // 実行したいコマンドのパスを指定します。
+// 	commands[1].next = NULL;
+// 	commands[1].prev = &commands[0];
+//     // コマンドを実行
+//     t_env *map;
+// 	map = map_new();
+//     envmap_init(&map);
+// 	t_info info;
+// 	info.map_head = map;
+//     int status = handle_command(commands, &info);
 
-    if (status == -1) {
-        printf("コマンドの実行に失敗しました。\n");
-    } else {
-        printf("コマンドの実行が正常に完了しました。終了コード: %d\n", status);
-    }
+//     if (status == -1) {
+//         printf("コマンドの実行に失敗しました。\n");
+//     } else {
+//         printf("コマンドの実行が正常に完了しました。終了コード: %d\n", status);
+//     }
 
-    free(commands[0].command);
-    free(commands[1].command);
+//     free(commands[0].command);
+//     free(commands[1].command);
 
-    return 0;
-}
+//     return 0;
+// }
 
 
