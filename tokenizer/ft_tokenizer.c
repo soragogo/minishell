@@ -6,11 +6,12 @@
 /*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:44 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/25 19:38:45 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/09/25 21:12:26 by ekamada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
+#include "parser.h"
 #include <stdbool.h>
 
 		int is_dilimeter(char c)
@@ -74,7 +75,7 @@
 		return (count);
 	}
 
-	void ft_split(t_token * tokens, char *command, int num_of_tokens)
+	void split_into_tokens(t_token * tokens, char *command, int num_of_tokens)
 	{
 		char *start;
 		char *end;
@@ -106,10 +107,10 @@
 		t_token *tokens;
 
 		num_of_tokens = count_tokens(command);
-		tokens = (t_token *)malloc(sizeof(t_token) * (num_of_tokens + 1));
+		tokens = (t_token *)ft_calloc(num_of_tokens + 1, sizeof(t_token));
 		if (!tokens)
 			return (NULL);
-		ft_split(tokens, command, num_of_tokens);
+		split_into_tokens(tokens, command, num_of_tokens);
 		return (tokens);
 	}
 

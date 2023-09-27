@@ -6,7 +6,7 @@
 /*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:41 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/25 19:48:33 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/09/25 21:12:28 by ekamada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void import_command(t_token *tokens, t_commandset *commandsets, int num_of_comma
 	int j = 0;
 	int k = 0;
 	int count = 0;
-	// printf("numofcommands: %d\n",num_of_commands);
 	while (i < num_of_commands)
 	{
 		count = count_command(tokens);
@@ -140,7 +139,7 @@ void ft_parser(char *buff)
 	tokens = ft_tokenizer(buff);
 	categorize_tokens(tokens);
 	num_of_commands = count_commandset(tokens);
-	printf("num_of_commands: [%d]\n", num_of_commands);
+	// printf("num_of_commands: [%d]\n", num_of_commands);
 	commandsets = create_command_pipeline(tokens, num_of_commands);
 	import_command(tokens, commandsets, num_of_commands);
 	import_redirection(tokens, commandsets, num_of_commands);
@@ -152,7 +151,6 @@ void ft_parser(char *buff)
 #include <libc.h>
 int main()
 {
-
 	char *buff;
 	while (1)
 	{

@@ -6,7 +6,7 @@
 /*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:34 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/25 19:38:36 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/09/27 19:17:53 by ekamada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <readline/history.h>
 #include <signal.h>
 #include "token.h"
+#include "../libft/libft.h"
 
 typedef struct s_node
 {
