@@ -6,7 +6,7 @@
 /*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:41 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/25 21:12:28 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/09/27 19:32:40 by ekamada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ void categorize_tokens(t_token *tokens)
 			tokens[i].type = COMMAND;
 			command_flag = 1;
 		}
-		else
+		else if (i != 0 && (tokens[i - 1].type >= REDIRECT_OUT && tokens[i - 1].type <= HERE_DOCUMENT))
 			tokens[i].type = FILE_NAME;
+		else
+			tokens[i].type = UNCATEGORIZED;
 
 		i++;
 	}
@@ -95,7 +97,7 @@ int count_command(t_token *tokens)
 
 	while (tokens[i].arg != NULL && tokens[i].type != PIPE)
 	{
-		if (tokens[i].type == COMMAND || tokens[i].type == COMMAND_OPTION)
+		if (tokens[i].type == COMMAND || tokens[i].type == COMMAND_OPTION || tokens[i].type == UNCATEGORIZED)
 			count++;
 		i++;
 	}
@@ -115,7 +117,7 @@ void import_command(t_token *tokens, t_commandset *commandsets, int num_of_comma
 
 		while (tokens[j].arg != NULL && tokens[j].type != PIPE)
 		{
-			if (tokens[j].type == COMMAND || tokens[j].type == COMMAND_OPTION)
+			if (tokens[j].type == COMMAND || tokens[j].type == COMMAND_OPTION || tokens[j].type == UNCATEGORIZED)
 			{
 				commandsets[i].command[k] = tokens[j].arg;
 				k++;
@@ -159,4 +161,3 @@ int main()
 		free(buff);
 	}
 }
-

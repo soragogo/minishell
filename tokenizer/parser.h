@@ -6,7 +6,7 @@
 /*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:34 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/27 19:17:53 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/09/27 19:23:25 by ekamada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ typedef struct s_node
 	int newfd;
 	int stashfd;
 	int oldfd;
+	TYPE type;
 	const char *filename;
 	struct s_node *next;
 	struct s_node *prev;
-
 } t_redirect;
 
 typedef struct s_commandset
