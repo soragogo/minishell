@@ -175,40 +175,40 @@ int heredoc(const char *delimiter){//pipeの読み込み側fdを返す
 
 
 
-int main()
-{
-    // ダミーのトークンを作成
-    t_redirect *redirect = (t_redirect *)malloc(sizeof(t_redirect));
-    redirect->filename = "output.txt"; // 出力ファイル名
-    redirect->oldfd = STDOUT_FILENO;   // 標準出力に対するリダイレクト
-	redirect->next = NULL;
+// int main()
+// {
+//     // ダミーのトークンを作成
+//     t_redirect *redirect = (t_redirect *)malloc(sizeof(t_redirect));
+//     redirect->filename = "output.txt"; // 出力ファイル名
+//     redirect->oldfd = STDOUT_FILENO;   // 標準出力に対するリダイレクト
+// 	redirect->next = NULL;
 
-	t_token *tokens = (t_token *)malloc(sizeof(t_token));
-	tokens->node = redirect;
-	tokens->type = REDIRECT_OUT;
+// 	t_token *tokens = (t_token *)malloc(sizeof(t_token));
+// 	tokens->node = redirect;
+// 	tokens->type = REDIRECT_OUT;
 
 
-    // 新しいファイルディスクリプタを作成
-    int newfd = open("output.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-    redirect->newfd = newfd;
-	printf("\nfd:%d\n", redirect->newfd);
-	fflush(stdout);
+//     // 新しいファイルディスクリプタを作成
+//     int newfd = open("output.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+//     redirect->newfd = newfd;
+// 	printf("\nfd:%d\n", redirect->newfd);
+// 	fflush(stdout);
 
-    // リダイレクトを実行
-    // do_redirect(redirect);
-	handle_redirection(tokens);
+//     // リダイレクトを実行
+//     // do_redirect(redirect);
+// 	handle_redirection(tokens);
 
-    // ファイルディスクリプタを使ってデータを書き込み
-    write(newfd, "This should go to output.txt\n", 30);
-	char *buf[1024];
-	read(newfd, *buf, 1024);
-	printf("%s\n", *buf);
+//     // ファイルディスクリプタを使ってデータを書き込み
+//     write(newfd, "This should go to output.txt\n", 30);
+// 	char *buf[1024];
+// 	read(newfd, *buf, 1024);
+// 	printf("%s\n", *buf);
 
-    // リダイレクトを元に戻す
-    undo_redirect(redirect);
+//     // リダイレクトを元に戻す
+//     undo_redirect(redirect);
 
-    // メモリの解放
-    free(redirect);
+//     // メモリの解放
+//     free(redirect);
 
-    return 0;
-}
+//     return 0;
+// }

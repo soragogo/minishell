@@ -73,15 +73,18 @@ int exec_command(t_commandset *commands, t_info *info){
 	int status;
 	static int new_pipe[2];
 	static int old_pipe[2];
+	char *path;
+	char **my_environ;
 	pid_t pid;
 
 	status = 0;
 	create_pipe(commands, new_pipe);
+	my_environ = create_environ(&(info->map_head));
 	if ((pid = fork()) < 0)
 		return (-1);
-	// else if (pid == 0){//子プロセス
-	pid = 0;
-	if (pid == 0){//子プロセス
+	else if (pid == 0){//子プロセス
+	// pid = 0;
+	// if (pid == 0){//子プロセス
 		printf("子プロセス\n");
 		handle_pipe(old_pipe, new_pipe, commands);
 		do_redirect(commands->node);
@@ -93,23 +96,25 @@ int exec_command(t_commandset *commands, t_info *info){
 		else
 		{
 			// write(1, "not builtin\n", 12);
-			char *path = search_path(*commands->command);//path作るの失敗してる
-			char **my_environ = create_environ(&(info->map_head));
-			write(1, "path: [%s]\n", strlen(path) + 1);
+			printf("%s\n", *commands->command);
+			// path = malloc(sizeof(char) * PATH_MAX);
+			path = fetch_path(*commands->command, &(info->map_head));//path作るの失敗してる
+			printf("path: [%s]\n", path);
 			status = execve(path, commands->command, my_environ);
 			if (status == -1)
 				perror("execve");
 		}
-		old_pipe[0] = new_pipe[0];
-		old_pipe[1] = new_pipe[1];
-		commands->pid = pid;
 	}
+	old_pipe[0] = new_pipe[0];
+	old_pipe[1] = new_pipe[1];
+	commands->pid = pid;
+	printf("pid: %d\n", pid);
 	return (status);
 }
 
 void wait_command(t_commandset *commands){
 	int status;
-	printf("wait_command\n");
+	printf("wait_command: %d\n", commands->pid);
 	if (waitpid(commands->pid, &status, 0) < 0)
 		printf("waitpid error\n");
 }
@@ -141,51 +146,53 @@ int handle_command(t_commandset *commands, t_info *info){
 /* --------------------------------------------------------- */
 
 
-// #include "../includes/minishell.h"
-// #include "../tokenizer/token.h"
-// #include "../tokenizer/parser.h"
+#include "../includes/minishell.h"
+#include "../tokenizer/token.h"
+#include "../tokenizer/parser.h"
 
-// int main() {
-//     t_commandset commands[2];
+int main() {
+    t_commandset commands[2];
     
-//     // コマンド1
-//     commands[0].command = malloc(sizeof(char *) * 1);
-// 	commands[0].command[0] = "ls";
-// 	// commands[0].command[1] = "a.out";
-// 	commands[0].node = (t_redirect *)malloc(sizeof(t_redirect));
-// 	commands[0].node->oldfd = 1;
-//     // commands[0].command = {"cat", "a.out"};
-// 	commands[0].next = &commands[1];
-// 	// commands[0].next = NULL;
-// 	commands[0].prev = NULL;
+    // コマンド1
+    commands[0].command = malloc(sizeof(char *) * 1);
+	commands[0].command[0] = "cat";
+	commands[0].command[1] = "a.txt";
+	commands[0].node = (t_redirect *)malloc(sizeof(t_redirect));
+	commands[0].node->oldfd = 1;
+    // commands[0].command = {"cat", "a.out"};
+	commands[0].next = &commands[1];
+	// commands[0].next = NULL;
+	commands[0].prev = NULL;
     
-//     // コマンド2
-//     commands[1].command = malloc(sizeof(char *) * 1);
-// 	commands[1].command[0] = "wc";
-// 	// commands[1].command[1] = "a";
-// 	commands[1].node = (t_redirect *)malloc(sizeof(t_redirect));
-// 	commands[1].node->oldfd = 1;
-//     // commands[0].command = {"cat", "a.out"}; // 実行したいコマンドのパスを指定します。
-// 	commands[1].next = NULL;
-// 	commands[1].prev = &commands[0];
-//     // コマンドを実行
-//     t_env *map;
-// 	map = map_new();
-//     envmap_init(&map);
-// 	t_info info;
-// 	info.map_head = map;
-//     int status = handle_command(commands, &info);
+    // コマンド2
+    commands[1].command = malloc(sizeof(char *) * 1);
+	commands[1].command[0] = "wc";
+	// commands[1].command[1] = "a";
+	// commands[1].command[0] = "cat";
+	// commands[1].command[1] = "a.txt";
+	commands[1].node = (t_redirect *)malloc(sizeof(t_redirect));
+	commands[1].node->oldfd = 1;
+    // commands[0].command = {"cat", "a.out"}; // 実行したいコマンドのパスを指定します。
+	commands[1].next = NULL;
+	commands[1].prev = &commands[0];
+    // コマンドを実行
+    t_env *map;
+	map = map_new();
+    envmap_init(&map);
+	t_info info;
+	info.map_head = map;
+    int status = handle_command(commands, &info);
 
-//     if (status == -1) {
-//         printf("コマンドの実行に失敗しました。\n");
-//     } else {
-//         printf("コマンドの実行が正常に完了しました。終了コード: %d\n", status);
-//     }
+    if (status == -1) {
+        printf("コマンドの実行に失敗しました。\n");
+    } else {
+        printf("コマンドの実行が正常に完了しました。終了コード: %d\n", status);
+    }
 
-//     free(commands[0].command);
-//     free(commands[1].command);
+    free(commands[0].command);
+    free(commands[1].command);
 
-//     return 0;
-// }
+    return 0;
+}
 
 

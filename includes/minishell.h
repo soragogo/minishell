@@ -86,6 +86,7 @@ int is_builtin(t_commandset *command);
 int exec_builtin(t_commandset *commands, t_info *info);
 char **join(char const *s1, char const *s2, char **environ);
 void env_join(char *name, char *value, char **environ);
+char *fetch_path(char *file, t_env **map);
 
 
 #endif
