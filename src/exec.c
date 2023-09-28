@@ -44,10 +44,19 @@ int exec_builtin(t_commandset *commands, t_info *info)
 	return (status);
 }
 
+// int saved_stdin;
+
+// saved_stdin = dup(STDIN_FILENO);
+// //
+// dup2(saved_stdin, STDIN_FILENO);
+// close(saved_stdin);
+
 void handle_pipe(int left_pipe[2], int right_pipe[2], t_commandset *command)
 {
 	if (command->prev)
 	{
+        printf("pipe[0] %s\n", command->command[0]);
+        dprintf(2, "pipe[0] %d ::::: pipe[1] %d\n", left_pipe[0], left_pipe[1]);
 		//コマンドの入力をパイプから受け取る
 		dup2(left_pipe[0], STDIN_FILENO);
 		close(left_pipe[1]);
@@ -55,6 +64,8 @@ void handle_pipe(int left_pipe[2], int right_pipe[2], t_commandset *command)
 	}
 	if (command->next)
 	{
+        printf("pipe[1] %s\n", command->command[0]);
+        dprintf(2, "pipe[0] %d ::::: pipe[1] %d\n", right_pipe[0], right_pipe[1]);
 		//コマンドの出力先をパイプに変更
 		dup2(right_pipe[1], STDOUT_FILENO);
 		close(right_pipe[0]);
@@ -96,19 +107,24 @@ int exec_command(t_commandset *commands, t_info *info){
 		else
 		{
 			// write(1, "not builtin\n", 12);
-			printf("%s\n", *commands->command);
-			// path = malloc(sizeof(char) * PATH_MAX);
-			path = fetch_path(*commands->command, &(info->map_head));//path作るの失敗してる
-			printf("path: [%s]\n", path);
+			// printf("%s\n", *commands->command);
+			path = fetch_path(*commands->command, &(info->map_head));
+			// printf("path: [%s]\n", path);
 			status = execve(path, commands->command, my_environ);
+            // printf("status: %d\n", status);
 			if (status == -1)
 				perror("execve");
 		}
 	}
+    printf("0 = %d  0 = %d\n", old_pipe[0], old_pipe[1]);
+    printf("0 = %d  0 = %d\n", new_pipe[0], new_pipe[1]);
+    if (old_pipe[0] != 0)
+        close(old_pipe[0]);
+    if (old_pipe[1] != 0)
+        close(old_pipe[1]);
+    
 	old_pipe[0] = new_pipe[0];
 	old_pipe[1] = new_pipe[1];
-    close(new_pipe[0]);
-    close(new_pipe[1]);
 	commands->pid = pid;
 	printf("pid: %d\n", pid);
 	return (status);
@@ -156,9 +172,10 @@ int main() {
     t_commandset commands[2];
     
     // コマンド1
-    commands[0].command = malloc(sizeof(char *) * 1);
-	commands[0].command[0] = "cat";
+    commands[0].command = malloc(sizeof(char *) * 3);
+	commands[0].command[0] = "wc";
 	commands[0].command[1] = "a.txt";
+	commands[0].command[2] = NULL;
 	commands[0].node = (t_redirect *)malloc(sizeof(t_redirect));
 	commands[0].node->oldfd = 1;
     // commands[0].command = {"cat", "a.out"};
@@ -167,8 +184,9 @@ int main() {
 	commands[0].prev = NULL;
     
     // コマンド2
-    commands[1].command = malloc(sizeof(char *) * 1);
-	commands[1].command[0] = "wc";
+    commands[1].command = malloc(sizeof(char *) * 2);
+	commands[1].command[0] = "cat";
+	commands[1].command[1] = NULL;
 	// commands[1].command[1] = "a";
 	// commands[1].command[0] = "cat";
 	// commands[1].command[1] = "a.txt";
