@@ -18,12 +18,12 @@ char *fetch_path(char *file, t_env **map)
 	// 	map = (*map)->next;
 	// }
 	pathlist = map_get(map, "PATH");
-	printf("pathlist: [%s]\n", pathlist);
+	// printf("pathlist: [%s]\n", pathlist);
 	if (pathlist == NULL)
 		return (NULL);
 	start = pathlist;
 	end = NULL;
-	printf("pathlist: [%s]\n", pathlist);
+	// printf("pathlist: [%s]\n", pathlist);
 	while (flag == 0)
 	{
 		bzero(path, PATH_MAX);

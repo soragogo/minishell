@@ -51,14 +51,14 @@ void handle_pipe(int left_pipe[2], int right_pipe[2], t_commandset *command)
 		//コマンドの入力をパイプから受け取る
 		close(left_pipe[1]);
 		dup2(left_pipe[0], STDIN_FILENO);
-		close(left_pipe[0]);
+		// close(left_pipe[0]);
 	}
 	if (command->next)
 	{
 		//コマンドの出力先をパイプに変更
 		close(right_pipe[0]);
 		dup2(right_pipe[1], STDOUT_FILENO);
-		close(right_pipe[1]);
+		// close(right_pipe[1]);
 	}
 }
 
@@ -84,10 +84,10 @@ int exec_command(t_commandset *commands, t_info *info){
 		return (-1);
 	else if (pid == 0){//子プロセス
 	// pid = 0;
-	// if (pid == 0){//子プロセス
+	// if (pid == pid){//子プロセス
 		printf("子プロセス\n");
 		handle_pipe(old_pipe, new_pipe, commands);
-		do_redirect(commands->node);
+		// do_redirect(commands->node);
 		if (is_builtin(commands) != -1)
 		{
 			// write(1, "builtin\n", 8);
