@@ -14,16 +14,24 @@
 
 typedef enum
 {
-	NON_EXPANDABLE,
-	EXPANDABLE_QUOTED,
-	PIPE,
-	EXPANDABLE,
+	UNCATEGORIZED,
+	PIPE,		   // | (パイプ)
+	REDIRECT_OUT,  // > (リダイレクト出力)
+	REDIRECT_IN,   // < (リダイレクト入力)
+	APPEND_OUT,	   // >> (出力の追加)
+	HERE_DOCUMENT, // << (ヒアドキュメント)
+	COMMAND,
+	COMMAND_OPTION,
+	FILE_NAME
 } TYPE;
 
-typedef struct s_list
+typedef struct s_list_token
 {
 	char *arg;
 	TYPE type;
+	int is_freed;
+	struct s_list_token *next_token;
+
 } t_token;
 
 t_token *ft_tokenizer(char *command);
