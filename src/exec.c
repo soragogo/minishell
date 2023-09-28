@@ -49,16 +49,16 @@ void handle_pipe(int left_pipe[2], int right_pipe[2], t_commandset *command)
 	if (command->prev)
 	{
 		//コマンドの入力をパイプから受け取る
-		close(left_pipe[1]);
 		dup2(left_pipe[0], STDIN_FILENO);
-		// close(left_pipe[0]);
+		close(left_pipe[1]);
+		close(left_pipe[0]);
 	}
 	if (command->next)
 	{
 		//コマンドの出力先をパイプに変更
-		close(right_pipe[0]);
 		dup2(right_pipe[1], STDOUT_FILENO);
-		// close(right_pipe[1]);
+		close(right_pipe[0]);
+		close(right_pipe[1]);
 	}
 }
 
@@ -107,6 +107,8 @@ int exec_command(t_commandset *commands, t_info *info){
 	}
 	old_pipe[0] = new_pipe[0];
 	old_pipe[1] = new_pipe[1];
+    close(new_pipe[0]);
+    close(new_pipe[1]);
 	commands->pid = pid;
 	printf("pid: %d\n", pid);
 	return (status);
