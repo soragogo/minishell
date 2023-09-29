@@ -55,8 +55,7 @@ void handle_pipe(int left_pipe[2], int right_pipe[2], t_commandset *command)
 {
 	if (command->prev)
 	{
-        printf("pipe[0] %s\n", command->command[0]);
-        dprintf(2, "pipe[0] %d ::::: pipe[1] %d\n", left_pipe[0], left_pipe[1]);
+    //     dprintf(2, "pipe[0] %d ::::: pipe[1] %d\n", left_pipe[0], left_pipe[1]);
 		//コマンドの入力をパイプから受け取る
 		dup2(left_pipe[0], STDIN_FILENO);
 		close(left_pipe[1]);
@@ -64,8 +63,7 @@ void handle_pipe(int left_pipe[2], int right_pipe[2], t_commandset *command)
 	}
 	if (command->next)
 	{
-        printf("pipe[1] %s\n", command->command[0]);
-        dprintf(2, "pipe[0] %d ::::: pipe[1] %d\n", right_pipe[0], right_pipe[1]);
+        // dprintf(2, "pipe[0] %d ::::: pipe[1] %d\n", right_pipe[0], right_pipe[1]);
 		//コマンドの出力先をパイプに変更
 		dup2(right_pipe[1], STDOUT_FILENO);
 		close(right_pipe[0]);
@@ -94,11 +92,8 @@ int exec_command(t_commandset *commands, t_info *info){
 	if ((pid = fork()) < 0)
 		return (-1);
 	else if (pid == 0){//子プロセス
-	// pid = 0;
-	// if (pid == pid){//子プロセス
-		printf("子プロセス\n");
 		handle_pipe(old_pipe, new_pipe, commands);
-		// do_redirect(commands->node);
+		handle_redirection(commands);
 		if (is_builtin(commands) != -1)
 		{
 			// write(1, "builtin\n", 8);
@@ -107,32 +102,25 @@ int exec_command(t_commandset *commands, t_info *info){
 		else
 		{
 			// write(1, "not builtin\n", 12);
-			// printf("%s\n", *commands->command);
 			path = fetch_path(*commands->command, &(info->map_head));
-			// printf("path: [%s]\n", path);
 			status = execve(path, commands->command, my_environ);
-            // printf("status: %d\n", status);
 			if (status == -1)
 				perror("execve");
 		}
+		undo_redirect(commands);
 	}
-    printf("0 = %d  0 = %d\n", old_pipe[0], old_pipe[1]);
-    printf("0 = %d  0 = %d\n", new_pipe[0], new_pipe[1]);
     if (old_pipe[0] != 0)
         close(old_pipe[0]);
     if (old_pipe[1] != 0)
         close(old_pipe[1]);
-    
 	old_pipe[0] = new_pipe[0];
 	old_pipe[1] = new_pipe[1];
 	commands->pid = pid;
-	printf("pid: %d\n", pid);
 	return (status);
 }
 
 void wait_command(t_commandset *commands){
 	int status;
-	printf("wait_command: %d\n", commands->pid);
 	if (waitpid(commands->pid, &status, 0) < 0)
 		printf("waitpid error\n");
 }
@@ -153,7 +141,6 @@ int handle_command(t_commandset *commands, t_info *info){
 		{
 			status = exec_command(commands, info);
 			wait_command(commands);
-			printf("wait抜けた\n");
 			commands = commands->next;
 		}
 	}
@@ -169,11 +156,11 @@ int handle_command(t_commandset *commands, t_info *info){
 #include "../tokenizer/parser.h"
 
 int main() {
-    t_commandset commands[2];
+    t_commandset commands[3];
     
     // コマンド1
     commands[0].command = malloc(sizeof(char *) * 3);
-	commands[0].command[0] = "wc";
+	commands[0].command[0] = "cat";
 	commands[0].command[1] = "a.txt";
 	commands[0].command[2] = NULL;
 	commands[0].node = (t_redirect *)malloc(sizeof(t_redirect));
@@ -182,19 +169,30 @@ int main() {
 	commands[0].next = &commands[1];
 	// commands[0].next = NULL;
 	commands[0].prev = NULL;
+	commands[0].node->filename = "b.txt";
+	commands[0].node->type = REDIRECT_OUT;
+	commands[0].node->next = NULL;
+	commands[0].node->prev = NULL;
     
     // コマンド2
     commands[1].command = malloc(sizeof(char *) * 2);
-	commands[1].command[0] = "cat";
+	commands[1].command[0] = "wc";
 	commands[1].command[1] = NULL;
-	// commands[1].command[1] = "a";
-	// commands[1].command[0] = "cat";
-	// commands[1].command[1] = "a.txt";
 	commands[1].node = (t_redirect *)malloc(sizeof(t_redirect));
 	commands[1].node->oldfd = 1;
-    // commands[0].command = {"cat", "a.out"}; // 実行したいコマンドのパスを指定します。
+	// commands[1].next = &commands[2];
 	commands[1].next = NULL;
 	commands[1].prev = &commands[0];
+
+	// commands[2].command = malloc(sizeof(char *) * 2);
+	// commands[2].command[0] = "wc";
+	// commands[2].command[1] = NULL;
+	// commands[2].node = (t_redirect *)malloc(sizeof(t_redirect));
+	// commands[2].node->oldfd = 1;
+    // // commands[0].command = {"cat", "a.out"}; // 実行したいコマンドのパスを指定します。
+	// commands[2].next = NULL;
+	// commands[2].prev = &commands[1];
+
     // コマンドを実行
     t_env *map;
 	map = map_new();
