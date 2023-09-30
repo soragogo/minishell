@@ -32,7 +32,7 @@ void convert_relative_path(char **dir_path, char *input){
 	}
 }
 
-int ft_chdir(t_token *tokens, t_env **env)
+int ft_chdir(char **commands, t_env **env)
 {
 	char *home;
 	char *dir_path;
@@ -50,14 +50,16 @@ int ft_chdir(t_token *tokens, t_env **env)
 	}
 	old_pwd = calloc(sizeof(char) * PATH_MAX, 1);
 	strlcpy(old_pwd, dir_path, PATH_MAX);
-	if (tokens[1].arg == NULL)//引数がない場合
+	if (commands[1] == NULL)//引数がない場合
 		strlcpy(dir_path, home, PATH_MAX);
-	else if (tokens[1].arg[0] == '~' && strlen(tokens[1].arg) == 1)//引数が~の場合 ２文字の場合弾けるようにstrcmpに変更
+	// else if (commands[1][0] == '~' && strlen(commands[1]) == 1)//引数が~の場合 ２文字の場合弾けるようにstrcmpに変更
+	else if (strcmp(commands[1], "~") == 0)//引数が~の場合
 	{
 		strlcpy(dir_path, home, PATH_MAX);//
-		strlcat(dir_path, tokens[1].arg + 1, PATH_MAX);//
+		strlcat(dir_path, commands[1] + 1, PATH_MAX);//
 	}
-	else if (tokens[1].arg[0] == '-')//引数が-の場合
+	// else if (commands[1] == '-')//引数が-の場合
+	else if (strcmp(commands[1], "-") == 0)//引数が-の場合
 	{
 		dir_path = map_get(env, "OLDPWD");
 		if (!dir_path){
@@ -68,11 +70,12 @@ int ft_chdir(t_token *tokens, t_env **env)
 	}
 	else//ディレクトリ直書きの場合
 	{
-		if (tokens[1].arg[0] == '/')//絶対パスの場合
-			strlcpy(dir_path, tokens[1].arg, PATH_MAX);
+		// if (commands[1] == '/')//絶対パスの場合
+		if (strcmp(commands[1], "/") == 0)//絶対パスの場合
+			strlcpy(dir_path, commands[1], PATH_MAX);
 		else
 		{
-			convert_relative_path(&dir_path, tokens[1].arg);
+			convert_relative_path(&dir_path, commands[1]);
 		}
 	}
 	if (chdir(dir_path) != 0)
@@ -84,7 +87,7 @@ int ft_chdir(t_token *tokens, t_env **env)
 	set_env(env, "OLDPWD", old_pwd);
 	set_env(env, "PWD", dir_path);
 	// printf("OLDPWD: %s\n\n", map_get(env, "OLDPWD"));
-	// printf("PWD: %s\n\n", map_get(env, "PWD"));
+	printf("PWD: %s\n", map_get(env, "PWD"));
 	free(old_pwd);
 	return (0);
 }

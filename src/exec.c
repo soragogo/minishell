@@ -4,7 +4,7 @@
 
 //コマンドがbuiltinかを確かめる関数
 int is_builtin(t_commandset *command){
-	const char *builtin[] = {"cd", "pwd", "export", "unset", "env", "exit", NULL};
+	const char *builtin[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL};
 	int i = 0;
 
 	while (builtin[i] != NULL)
@@ -24,19 +24,18 @@ int exec_builtin(t_commandset *commands, t_info *info)
 	status = 0;
 	//後でredirectの処理を書く
 
-	// if (strcmp(commands[0].command->arg, "echo") == 0)
-	// 	status = ft_echo(commands[0], info->exit_status_log);
-	// else if (strcmp(commands[0].command->arg, "cd") == 0)
-	// 	status = ft_chdir(commands[0], &(info->map_head));
-	// else 
-	if (strcmp(*commands[0].command, "env") == 0)
+	if (strcmp(*commands[0].command, "echo") == 0)
+		status = ft_echo(commands->command, info->exit_status_log);
+	else if (strcmp(*commands[0].command, "cd") == 0)
+		status = ft_chdir(commands->command, &(info->map_head));
+	else if (strcmp(*commands[0].command, "env") == 0)
 		status = ft_env(&(info->map_head));
 	else if (strcmp(*commands[0].command, "pwd") == 0)
 		status = ft_pwd();
-	// else if (strcmp(commands[0].command->arg, "export") == 0)
-	// 	status = ft_export(&info->map_head, commands[0]);
-	// else if (strcmp(commands[0].command->arg, "unset") == 0)
-	// 	status = ft_unset(&info->map_head, commands[0]);
+	else if (strcmp(*commands[0].command, "export") == 0)
+		status = ft_export(&info->map_head, commands->command);
+	else if (strcmp(*commands[0].command, "unset") == 0)
+		status = ft_unset(&info->map_head, commands->command);
 	// else if (strcmp(tokens[0].arg, "exit") == 0)
 	// 	status = ft_exit(&argv);
 	else
@@ -96,12 +95,12 @@ int exec_command(t_commandset *commands, t_info *info){
 		handle_redirection(commands);
 		if (is_builtin(commands) != -1)
 		{
-			// write(1, "builtin\n", 8);
+			write(1, "builtin\n", 8);
 			status = exec_builtin(commands, info);
 		}
 		else
 		{
-			// write(1, "not builtin\n", 12);
+			write(1, "not builtin\n", 12);
 			path = fetch_path(*commands->command, &(info->map_head));
 			status = execve(path, commands->command, my_environ);
 			if (status == -1)
@@ -160,30 +159,30 @@ int main() {
     
     // コマンド1
     commands[0].command = malloc(sizeof(char *) * 3);
-	commands[0].command[0] = "cat";
-	commands[0].command[1] = "a.txt";
+	commands[0].command[0] = "export";
+	commands[0].command[1] = NULL;
 	commands[0].command[2] = NULL;
 	commands[0].node = (t_redirect *)malloc(sizeof(t_redirect));
 	commands[0].node->oldfd = 1;
     // commands[0].command = {"cat", "a.out"};
-	commands[0].next = &commands[1];
-	// commands[0].next = NULL;
+	// commands[0].next = &commands[1];
+	commands[0].next = NULL;
 	commands[0].prev = NULL;
-	commands[0].node->filename = "b.txt";
-	commands[0].node->type = REDIRECT_OUT;
-	commands[0].node->next = NULL;
-	commands[0].node->prev = NULL;
+	// commands[0].node->filename = "b.txt";
+	// commands[0].node->type = REDIRECT_OUT;
+	// commands[0].node->next = NULL;
+	// commands[0].node->prev = NULL;
     
-    // コマンド2
-    commands[1].command = malloc(sizeof(char *) * 2);
-	commands[1].command[0] = "cat";
-	commands[1].command[1] = "b.txt";
-	commands[1].command[2] = NULL;
-	commands[1].node = (t_redirect *)malloc(sizeof(t_redirect));
-	commands[1].node->oldfd = 1;
+    // // コマンド2
+    // commands[1].command = malloc(sizeof(char *) * 2);
+	// commands[1].command[0] = "cat";
+	// commands[1].command[1] = "b.txt";
+	// commands[1].command[2] = NULL;
+	// commands[1].node = (t_redirect *)malloc(sizeof(t_redirect));
+	// commands[1].node->oldfd = 1;
 	// commands[1].next = &commands[2];
-	commands[1].next = NULL;
-	commands[1].prev = &commands[0];
+	// // commands[1].next = NULL;
+	// commands[1].prev = &commands[0];
 
 	// commands[2].command = malloc(sizeof(char *) * 2);
 	// commands[2].command[0] = "wc";
@@ -207,9 +206,6 @@ int main() {
     } else {
         printf("コマンドの実行が正常に完了しました。終了コード: %d\n", status);
     }
-
-    free(commands[0].command);
-    free(commands[1].command);
 
     return 0;
 }

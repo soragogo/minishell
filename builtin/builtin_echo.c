@@ -7,30 +7,30 @@ void ft_putstr(char *ch, int fd)
 	write(fd, ch, strlen(ch));
 }
 
-int ft_echo(t_token *tokens, int status)
+int ft_echo(char **command, int status)
 {
 	int i;
 	int n_option;
 
 	i = 1;
 	n_option = 0;
-	if (tokens[i].arg && strncmp(tokens[i].arg, "-n", 2) == 0 && strlen(tokens[i].arg) == 2)
+	if (command[i] && strncmp(command[i], "-n", 2) == 0 && strlen(command[i]) == 2)
 	{
 		n_option = 1;
 		i++;
 	}
-	while (tokens[i].arg)
+	while (command[i])
 	{
-		if (tokens[i].arg && strncmp(tokens[i].arg, "$?", 2) == 0)
+		if (command[i] && strncmp(command[i], "$?", 2) == 0)
 		{
 			ft_putnbr_fd(status, 1);
-			if (tokens[i].arg[2])
-				ft_putstr(&tokens[i].arg[2], 1);
+			if (command[i])
+				ft_putstr(command[i], 1);
 		}
 		else
-			ft_putstr(tokens[i].arg, 1);
+			ft_putstr(command[i], 1);
 		i++;
-		if (tokens[i].arg)
+		if (command[i])
 			write(1, " ", 1);
 	}
 	if (n_option == 0)

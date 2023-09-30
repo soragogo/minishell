@@ -64,13 +64,13 @@ char **create_environ(t_env **env_head);
 
 
 	/* builtin command */
-int	ft_echo(t_token *tokens, int status);
-int	ft_chdir(t_token *tokens, t_env **env);
+int ft_echo(char **command, int status);
+int ft_chdir(char **commands, t_env **env);
 int	ft_pwd(void);
 int	ft_exit(char **arg);
-int	ft_unset(t_env **env_head, t_token *tokens);
+int ft_unset(t_env **env_head, char **commands);
 int	ft_env(t_env **env_head);
-int	ft_export(t_env **map, t_token *tokens);
+int ft_export(t_env **map, char **commands);
 
 	/* redirection */
 void handle_redirection(t_commandset *commands);
