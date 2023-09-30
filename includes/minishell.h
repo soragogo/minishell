@@ -67,7 +67,7 @@ char **create_environ(t_env **env_head);
 int ft_echo(char **command, int status);
 int ft_chdir(char **commands, t_env **env);
 int	ft_pwd(void);
-int	ft_exit(char **arg);
+int ft_exit(char **command, t_info *info);
 int ft_unset(t_env **env_head, char **commands);
 int	ft_env(t_env **env_head);
 int ft_export(t_env **map, char **commands);

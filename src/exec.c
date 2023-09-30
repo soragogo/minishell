@@ -36,8 +36,8 @@ int exec_builtin(t_commandset *commands, t_info *info)
 		status = ft_export(&info->map_head, commands->command);
 	else if (strcmp(*commands[0].command, "unset") == 0)
 		status = ft_unset(&info->map_head, commands->command);
-	// else if (strcmp(tokens[0].arg, "exit") == 0)
-	// 	status = ft_exit(&argv);
+	else if (strcmp(*commands[0].command, "exit") == 0)
+		status = ft_exit(commands->command, info);
 	else
 		return (-1);
 	return (status);
@@ -159,7 +159,7 @@ int main() {
     
     // コマンド1
     commands[0].command = malloc(sizeof(char *) * 3);
-	commands[0].command[0] = "export";
+	commands[0].command[0] = "exit";
 	commands[0].command[1] = NULL;
 	commands[0].command[2] = NULL;
 	commands[0].node = (t_redirect *)malloc(sizeof(t_redirect));
