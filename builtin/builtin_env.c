@@ -1,16 +1,17 @@
-#include "../includes/minishell.h"
+#include "./../includes/minishell.h"
 
-void ft_env(t_env **env_head, char *arg)
+//arg消そう
+int ft_env(t_env **env_head)
 {
 	t_env *tmp;
 
 	tmp = *env_head;
-	(void)arg;
 	while (tmp)
 	{
 		printf("%s=%s\n", tmp->name, tmp->value);
 		tmp = tmp->next;
 	}
+	return (0);
 }
 
 // int main(){

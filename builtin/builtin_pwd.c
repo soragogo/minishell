@@ -1,18 +1,19 @@
-#include "../includes/minishell.h"
+#include "./../includes/minishell.h"
 
-int builtin_pwd(char *command_buf)
+int ft_pwd()//char *command_buf
 {
 	char *envp;
 	
 	// envp = getenv("PWD");
-	(void)command_buf;
+	// (void)command_buf;
 	envp = getcwd(NULL, 0);
 	if (!envp)
 	{
 		printf("error: getcwd");
 		return (1);
 	}//ここはあとで
-	printf("%s\n", envp);
+	// printf("%s\n", envp);
+	write(STDOUT_FILENO, envp, ft_strlen(envp));
 	free (envp);
 	return (0);
 }

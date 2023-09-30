@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emukamada <emukamada@student.42.fr>        +#+  +:+       +#+        */
+/*   By: mayu <mayu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:41 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/26 23:16:02 by emukamada        ###   ########.fr       */
+/*   Updated: 2023/09/30 21:48:38 by mayu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ void import_command(t_token *tokens, t_commandset *commandsets, int num_of_comma
 	}
 }
 
-void ft_parser(char *buff)
+// void ft_parser(char *buff)
+t_commandset *ft_parser(char *buff)
 {
 	t_token *tokens;
 	t_commandset *commandsets;
@@ -145,19 +146,20 @@ void ft_parser(char *buff)
 	import_command(tokens, commandsets, num_of_commands);
 	import_redirection(tokens, commandsets, num_of_commands);
 	test_commandsets(commandsets, num_of_commands);
+	return (commandsets);
 }
 
-#include "token.h"
-#include <stdio.h>
-#include <libc.h>
-int main()
-{
+// #include "token.h"
+// #include <stdio.h>
+// #include <libc.h>
+// int main()
+// {
 
-	char *buff;
-	while (1)
-	{
-		buff = readline("test here> ");
-		ft_parser(buff);
-		free(buff);
-	}
-}
+// 	char *buff;
+// 	while (1)
+// 	{
+// 		buff = readline("test here> ");
+// 		ft_parser(buff);
+// 		free(buff);
+// 	}
+// }

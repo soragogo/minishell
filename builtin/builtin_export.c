@@ -1,17 +1,29 @@
-#include "../includes/minishell.h"
+#include "./../includes/minishell.h"
 
-void ft_export(t_env **map, char **arg)
+int ft_export(t_env **map, char **commands)
 {
 	char *name;
 	char *value;
 
 	name = NULL;
 	value = NULL;
-	name = get_env_name(name, arg[1]);
-	value = get_env_value(value, arg[1]);
-	if(set_env(map, name, value) == -1)
+	if (commands[1] == NULL)//引数を取らない場合、一覧表示
+	{
+		ft_env(map);
+		return (0);
+	}
+	if (strchr(commands[1], '=') == NULL)//=がない場合、エラー
+	{
+		return (0);
+	}
+	name = get_env_name(name, commands[1]);
+	value = get_env_value(value, commands[1]);
+	if(set_env(map, name, value) == -1)//環境変数をセット
+	{
 		printf("error");
-	// set_env(&map, "TEST_VARIABLE", "hello");
+		return (-1);
+	}
+	return (0);
 }
 
 
