@@ -16,12 +16,22 @@ void handle_redirection(t_commandset *commands)
 	}
 	else if (commands->node->type == APPEND_OUT)
 	{
-		// append(tokens);
+		append(commands->node);
 	}
 	else if (commands->node->type == HERE_DOCUMENT)
 	{
 		here_document(commands->node);
 	}
+}
+
+void append(t_redirect *node)
+{
+	// int fd;
+
+	node->oldfd = STDOUT_FILENO;
+	node->newfd = open(node->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	do_redirect(node);
+	printf("\nfd:%d\n", node->newfd);
 }
 
 void redirect_out(t_redirect *node)
