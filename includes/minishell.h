@@ -76,10 +76,11 @@ int ft_export(t_env **map, char **commands);
 void handle_redirection(t_commandset *commands);
 void redirect_out(t_redirect *node);
 void redirect_in(t_redirect *node);
-void here_document(t_redirect *node);
+void here_document(t_commandset *command);
 void do_redirect(t_redirect *node);
 void undo_redirect(t_commandset *commands);
 int heredoc(const char *delimiter);
+void append(t_redirect *node);
 
 	/* utils */
 int is_builtin(t_commandset *command);
