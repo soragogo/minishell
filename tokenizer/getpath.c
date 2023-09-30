@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   getpath.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/25 19:38:47 by ekamada           #+#    #+#             */
+/*   Updated: 2023/09/27 19:18:00 by ekamada          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "token.h"
 
 t_token *ft_tokenizer(char *command);
@@ -8,7 +20,7 @@ void convert_env_variables(t_token *tokens)
 	char *tmp;
 	for (int i = 0; tokens[i].arg != NULL; i++)
 	{
-		env = strchr(tokens[i].arg, '$');
+		env = ft_strchr(tokens[i].arg, '$');
 		if (env)
 		{
 			env++;

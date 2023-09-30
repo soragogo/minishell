@@ -73,12 +73,12 @@ int	ft_env(t_env **env_head);
 int	ft_export(t_env **map, t_token *tokens);
 
 	/* redirection */
-void handle_redirection(t_token *tokens);
-void redirect_out(t_token *tokens);
-void redirect_in(t_token *tokens);
-void here_document(t_token *tokens);
+void handle_redirection(t_commandset *commands);
+void redirect_out(t_redirect *node);
+void redirect_in(t_redirect *node);
+void here_document(t_redirect *node);
 void do_redirect(t_redirect *node);
-void undo_redirect(t_redirect *node);
+void undo_redirect(t_commandset *commands);
 int heredoc(const char *delimiter);
 
 	/* utils */

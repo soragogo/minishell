@@ -176,8 +176,9 @@ int main() {
     
     // コマンド2
     commands[1].command = malloc(sizeof(char *) * 2);
-	commands[1].command[0] = "wc";
-	commands[1].command[1] = NULL;
+	commands[1].command[0] = "cat";
+	commands[1].command[1] = "b.txt";
+	commands[1].command[2] = NULL;
 	commands[1].node = (t_redirect *)malloc(sizeof(t_redirect));
 	commands[1].node->oldfd = 1;
 	// commands[1].next = &commands[2];

@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_tokenizer.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/25 19:38:44 by ekamada           #+#    #+#             */
+/*   Updated: 2023/09/27 20:12:31 by ekamada          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "token.h"
+#include "parser.h"
 #include <stdbool.h>
 
 int is_dilimeter(char c)
@@ -62,11 +75,11 @@ int count_tokens(char *command)
 	return (count);
 }
 
-void ft_split(t_token *tokens, char *command, int num_of_tokens)
-{
-	char *start;
-	char *end;
-	int i;
+void split_into_tokens(t_token * tokens, char *command, int num_of_tokens)
+	{
+		char *start;
+		char *end;
+		int i;
 
 	i = 0;
 	start = command;
@@ -75,7 +88,7 @@ void ft_split(t_token *tokens, char *command, int num_of_tokens)
 	end = find_end_of_arg(command);
 	while (i < num_of_tokens)
 	{
-		tokens[i].arg = malloc(sizeof(char) * (end - start + 2));
+		tokens[i].arg = ft_calloc(end - start + 2, sizeof(char));
 		tokens[i].is_freed = 0;
 		strlcpy(tokens[i].arg, start, end - start + 2);
 		start = end + 1;
@@ -93,13 +106,13 @@ t_token *ft_tokenizer(char *command)
 	int num_of_tokens;
 	t_token *tokens;
 
-	num_of_tokens = count_tokens(command);
-	tokens = (t_token *)malloc(sizeof(t_token) * (num_of_tokens + 1));
-	if (!tokens)
-		return (NULL);
-	ft_split(tokens, command, num_of_tokens);
-	return (tokens);
-}
+		num_of_tokens = count_tokens(command);
+		tokens = (t_token *)ft_calloc(num_of_tokens + 1, sizeof(t_token));
+		if (!tokens)
+			return (NULL);
+		split_into_tokens(tokens, command, num_of_tokens);
+		return (tokens);
+	}
 
 // #include <libc.h>
 // int main()
@@ -110,11 +123,11 @@ t_token *ft_tokenizer(char *command)
 // 	{
 // 		command = readline("test here> ");
 // 		result = ft_tokenizer(command);
-// 		// for (int i = 0; result[i].arg != NULL; i++)
-// 		// {
-// 		// 	printf("arg: [%s]\n", result[i].arg);
-// 		// 	printf("type: [%d]\n", result[i].type);
-// 		// }
+// 		for (int i = 0; result[i].arg != NULL; i++)
+// 		{
+// 			printf("arg: [%s]\n", result[i].arg);
+// 			printf("type: [%d]\n", result[i].type);
+// 		}
 // 		free(command);
 // 	}
 // }
