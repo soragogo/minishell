@@ -138,6 +138,8 @@ size_t count_env(t_env *env)
 	size_t i;
 
 	i = 0;
+	if(!env)
+		return (0);
 	while (env->name)
 	{
 		i++;

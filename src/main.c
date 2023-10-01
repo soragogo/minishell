@@ -45,6 +45,7 @@ int main()
 		// tokens = ft_tokenizer(command_buf);
 		commands = ft_parser(command_buf);
 		// commands = create_command_pipeline(tokens);
+		expand_env(commands->command, info.map_head);
 		handle_command(commands, &info);
 		/* ------------------ exec_command ---------------------- */
 		// status = is_builtin(tokens, &info);//builtinだったら実行

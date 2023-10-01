@@ -92,7 +92,7 @@ int exec_command(t_commandset *commands, t_info *info){
 		return (-1);
 	else if (pid == 0){//子プロセス
 		handle_pipe(old_pipe, new_pipe, commands);
-		handle_redirection(commands);
+		handle_redirection(commands, info);
 		if (is_builtin(commands) != -1)
 		{
 			// write(1, "builtin\n", 8);

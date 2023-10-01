@@ -1,8 +1,9 @@
 #include "../includes/minishell.h"
 #include "../tokenizer/token.h"
 #include "../tokenizer/parser.h"
+#include "../gnl/get_next_line_bonus.h"
 
-void handle_redirection(t_commandset *commands)
+void handle_redirection(t_commandset *commands, t_info *info)
 {
 	if (commands->node->filename == NULL)
 		return ;
@@ -20,7 +21,7 @@ void handle_redirection(t_commandset *commands)
 	}
 	else if (commands->node->type == HERE_DOCUMENT)
 	{
-		here_document(commands);
+		here_document(commands, info);
 	}
 }
 
@@ -48,12 +49,12 @@ void redirect_in(t_redirect *node)
 	// printf("\nfd:%d\n", node->newfd);
 }
 
-void here_document(t_commandset *command)
+void here_document(t_commandset *command, t_info *info)
 {
 	// int fd;
 
 	command->node->oldfd = STDIN_FILENO;
-	command->node->newfd = heredoc(command->node->filename);
+	command->node->newfd = heredoc(command->node->filename, info->map_head);
 	do_redirect(command->node);
 	// printf("\nfd:%d\n", command->node->newfd);
 }
@@ -76,11 +77,14 @@ void undo_redirect(t_commandset *commands)
 	close(commands->node->newfd);
 }
 
-int heredoc(const char *delimiter)
+int heredoc(const char *delimiter, t_env *env_head)
 {	//pipeの読み込み側fdを返す
 	int pipefd[2];
 	char *line;
+	char **buf;
+	int i;
 
+	i = 0;
 	pipe(pipefd);
 	printf("%s\n", delimiter);
 	while(1){
@@ -94,8 +98,29 @@ int heredoc(const char *delimiter)
 		}
 		write(pipefd[1], line, strlen(line));
 		write(pipefd[1], "\n", 1);
+		i++;
 		free(line);
 	}
+	// printf("i: %d\n", i);
+	// buf = malloc(sizeof(char *) * (i + 1));
+	// //pipefd[1]の中身をbufにコピー
+	// int j;
+	// j = 0;
+	// while (j < i)
+	// {
+	// 	buf[j] = get_next_line(pipefd[0]);
+	// 	j++;
+	// }
+	// buf[j] = NULL;
+	// expand_env(buf, env_head);
+	// i = 0;
+	// while (buf[i])
+	// {
+	// 	printf("buf[%d]: %s\n", i, buf[i]);
+	// 	write(pipefd[1], buf[i], strlen(buf[i]));
+	// 	write(pipefd[1], "\n", 1);
+	// 	i++;
+	// }
 	close(pipefd[1]);
 	return (pipefd[0]);
 }
