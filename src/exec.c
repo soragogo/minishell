@@ -95,12 +95,12 @@ int exec_command(t_commandset *commands, t_info *info){
 		handle_redirection(commands);
 		if (is_builtin(commands) != -1)
 		{
-			write(1, "builtin\n", 8);
+			// write(1, "builtin\n", 8);
 			status = exec_builtin(commands, info);
 		}
 		else
 		{
-			write(1, "not builtin\n", 12);
+			// write(1, "not builtin\n", 12);
 			path = fetch_path(*commands->command, &(info->map_head));
 			status = execve(path, commands->command, my_environ);
 			if (status == -1)

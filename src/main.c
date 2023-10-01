@@ -61,7 +61,7 @@ int main()
 		// }
 		// else
 		// 	ft_system(tokens, &status);//builtin以外のコマンドを実行する関数
-		free_before_closing(tokens, command_buf);
+		// free_before_closing(tokens, command_buf);
 	}
 	return (0);
 }

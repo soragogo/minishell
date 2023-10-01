@@ -29,7 +29,7 @@ void append(t_redirect *node)
 	node->oldfd = STDOUT_FILENO;
 	node->newfd = open(node->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	do_redirect(node);
-	printf("\nfd:%d\n", node->newfd);
+	// printf("\nfd:%d\n", node->newfd);
 }
 
 void redirect_out(t_redirect *node)
@@ -37,7 +37,7 @@ void redirect_out(t_redirect *node)
 	node->oldfd = STDOUT_FILENO;
 	node->newfd = open(node->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	do_redirect(node);
-	printf("\nfd:%d\n", node->newfd);
+	// printf("\nfd:%d\n", node->newfd);
 }
 
 void redirect_in(t_redirect *node)
@@ -45,7 +45,7 @@ void redirect_in(t_redirect *node)
 	node->oldfd = STDIN_FILENO;
 	node->newfd = open(node->filename, O_RDONLY);
 	do_redirect(node);
-	printf("\nfd:%d\n", node->newfd);
+	// printf("\nfd:%d\n", node->newfd);
 }
 
 void here_document(t_commandset *command)
@@ -55,7 +55,7 @@ void here_document(t_commandset *command)
 	command->node->oldfd = STDIN_FILENO;
 	command->node->newfd = heredoc(command->command[1]);
 	do_redirect(command->node);
-	printf("\nfd:%d\n", command->node->newfd);
+	// printf("\nfd:%d\n", command->node->newfd);
 }
 
 void do_redirect(t_redirect *node)
