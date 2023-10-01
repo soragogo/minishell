@@ -131,7 +131,7 @@ int handle_command(t_commandset *commands, t_info *info)
 
 	status = 0;
 	//pipeなし
-	if (commands[1].command == NULL && is_builtin(commands) != -1)//fork()いらない
+	if (commands[1].node == NULL && is_builtin(commands) != -1)//fork()いらない
 	{
 		status = exec_builtin(commands, info);
 	}
