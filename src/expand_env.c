@@ -44,10 +44,9 @@ void expand_env(char **command, t_env *env_head)
                 tmp = ft_substr(command[i], 1, j - 1);
             }
             env_value = map_get(&env_head, tmp);
-            if (env_value != NULL)
-            { // freeeeeeeee
-                command[i] = ft_strdup(env_value);
-            }
+            if (env_value == NULL)
+                printf("error");//何もせず終了させたい
+            command[i] = ft_strdup(env_value);
             free(tmp);
         }
         i++;
