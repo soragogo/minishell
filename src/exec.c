@@ -125,7 +125,8 @@ void wait_command(t_commandset *commands){
 }
 
 
-int handle_command(t_commandset *commands, t_info *info){
+int handle_command(t_commandset *commands, t_info *info)
+{
 	int status;
 
 	status = 0;
@@ -150,64 +151,64 @@ int handle_command(t_commandset *commands, t_info *info){
 /* --------------------------------------------------------- */
 
 
-#include "../includes/minishell.h"
-#include "../tokenizer/token.h"
-#include "../tokenizer/parser.h"
+// #include "../includes/minishell.h"
+// #include "../tokenizer/token.h"
+// #include "../tokenizer/parser.h"
 
-int main() {
-    t_commandset commands[3];
+// int main() {
+//     t_commandset commands[3];
     
-    // コマンド1
-    commands[0].command = malloc(sizeof(char *) * 3);
-	commands[0].command[0] = "exit";
-	commands[0].command[1] = NULL;
-	commands[0].command[2] = NULL;
-	commands[0].node = (t_redirect *)malloc(sizeof(t_redirect));
-	commands[0].node->oldfd = 1;
-    // commands[0].command = {"cat", "a.out"};
-	// commands[0].next = &commands[1];
-	commands[0].next = NULL;
-	commands[0].prev = NULL;
-	// commands[0].node->filename = "b.txt";
-	// commands[0].node->type = REDIRECT_OUT;
-	// commands[0].node->next = NULL;
-	// commands[0].node->prev = NULL;
+//     // コマンド1
+//     commands[0].command = malloc(sizeof(char *) * 3);
+// 	commands[0].command[0] = "exit";
+// 	commands[0].command[1] = NULL;
+// 	commands[0].command[2] = NULL;
+// 	commands[0].node = (t_redirect *)malloc(sizeof(t_redirect));
+// 	commands[0].node->oldfd = 1;
+//     // commands[0].command = {"cat", "a.out"};
+// 	// commands[0].next = &commands[1];
+// 	commands[0].next = NULL;
+// 	commands[0].prev = NULL;
+// 	// commands[0].node->filename = "b.txt";
+// 	// commands[0].node->type = REDIRECT_OUT;
+// 	// commands[0].node->next = NULL;
+// 	// commands[0].node->prev = NULL;
     
-    // // コマンド2
-    // commands[1].command = malloc(sizeof(char *) * 2);
-	// commands[1].command[0] = "cat";
-	// commands[1].command[1] = "b.txt";
-	// commands[1].command[2] = NULL;
-	// commands[1].node = (t_redirect *)malloc(sizeof(t_redirect));
-	// commands[1].node->oldfd = 1;
-	// commands[1].next = &commands[2];
-	// // commands[1].next = NULL;
-	// commands[1].prev = &commands[0];
+//     // // コマンド2
+//     // commands[1].command = malloc(sizeof(char *) * 2);
+// 	// commands[1].command[0] = "cat";
+// 	// commands[1].command[1] = "b.txt";
+// 	// commands[1].command[2] = NULL;
+// 	// commands[1].node = (t_redirect *)malloc(sizeof(t_redirect));
+// 	// commands[1].node->oldfd = 1;
+// 	// commands[1].next = &commands[2];
+// 	// // commands[1].next = NULL;
+// 	// commands[1].prev = &commands[0];
 
-	// commands[2].command = malloc(sizeof(char *) * 2);
-	// commands[2].command[0] = "wc";
-	// commands[2].command[1] = NULL;
-	// commands[2].node = (t_redirect *)malloc(sizeof(t_redirect));
-	// commands[2].node->oldfd = 1;
-    // // commands[0].command = {"cat", "a.out"}; // 実行したいコマンドのパスを指定します。
-	// commands[2].next = NULL;
-	// commands[2].prev = &commands[1];
+// 	// commands[2].command = malloc(sizeof(char *) * 2);
+// 	// commands[2].command[0] = "wc";
+// 	// commands[2].command[1] = NULL;
+// 	// commands[2].node = (t_redirect *)malloc(sizeof(t_redirect));
+// 	// commands[2].node->oldfd = 1;
+//     // // commands[0].command = {"cat", "a.out"}; // 実行したいコマンドのパスを指定します。
+// 	// commands[2].next = NULL;
+// 	// commands[2].prev = &commands[1];
 
-    // コマンドを実行
-    t_env *map;
-	map = map_new();
-    envmap_init(&map);
-	t_info info;
-	info.map_head = map;
-    int status = handle_command(commands, &info);
+//     // コマンドを実行
+//     t_env *map;
+// 	map = map_new();
+//     envmap_init(&map);
+// 	t_info info;
+// 	info.map_head = map;
+//     int status = handle_command(commands, &info);
 
-    if (status == -1) {
-        printf("コマンドの実行に失敗しました。\n");
-    } else {
-        printf("コマンドの実行が正常に完了しました。終了コード: %d\n", status);
-    }
+//     if (status == -1) {
+//         printf("コマンドの実行に失敗しました。\n");
+//     } else {
+//         printf("コマンドの実行が正常に完了しました。終了コード: %d\n", status);
+//     }
 
-    return 0;
-}
+//     return 0;
+// }
 
 
