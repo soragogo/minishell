@@ -22,11 +22,7 @@ int ft_echo(char **command, int status)
 	while (command[i])
 	{
 		if (command[i] && strncmp(command[i], "$?", 2) == 0)
-		{
 			ft_putnbr_fd(status, 1);
-			if (command[i])
-				ft_putstr(command[i], 1);
-		}
 		else
 			ft_putstr(command[i], 1);
 		i++;

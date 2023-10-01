@@ -104,7 +104,10 @@ int exec_command(t_commandset *commands, t_info *info){
 			path = fetch_path(*commands->command, &(info->map_head));
 			status = execve(path, commands->command, my_environ);
 			if (status == -1)
-				perror("execve");
+			{
+				printf("minishell: %s: command not found\n", *commands->command);
+				exit(127);
+			}
 		}
 		undo_redirect(commands);
 	}

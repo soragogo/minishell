@@ -53,7 +53,7 @@ void here_document(t_commandset *command)
 	// int fd;
 
 	command->node->oldfd = STDIN_FILENO;
-	command->node->newfd = heredoc(command->command[1]);
+	command->node->newfd = heredoc(command->node->filename);
 	do_redirect(command->node);
 	// printf("\nfd:%d\n", command->node->newfd);
 }
@@ -82,6 +82,7 @@ int heredoc(const char *delimiter)
 	char *line;
 
 	pipe(pipefd);
+	printf("%s\n", delimiter);
 	while(1){
 		line = readline("> ");
 		if (line == NULL)

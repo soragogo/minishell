@@ -14,6 +14,7 @@ int ft_pwd()//char *command_buf
 	}//ここはあとで
 	// printf("%s\n", envp);
 	write(STDOUT_FILENO, envp, ft_strlen(envp));
+	write(STDOUT_FILENO, "\n", 1);
 	free (envp);
 	return (0);
 }

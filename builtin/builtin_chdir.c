@@ -84,10 +84,15 @@ int ft_chdir(char **commands, t_env **env)
 		printf("cd: no such file or directory: %s\n", dir_path);
 		return (1);
 	}
+	// int ret = chdir(dir_path);
+	// printf("ret: %d\n", ret);
 	set_env(env, "OLDPWD", old_pwd);
 	set_env(env, "PWD", dir_path);
 	// printf("OLDPWD: %s\n\n", map_get(env, "OLDPWD"));
 	printf("PWD: %s\n", map_get(env, "PWD"));
+	// printf("%s\n", dir_path);
+	// chdir(dir_path);
+	ft_pwd();
 	free(old_pwd);
 	return (0);
 }
