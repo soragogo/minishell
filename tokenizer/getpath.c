@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   getpath.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mayyamad <mayyamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:47 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/27 19:18:00 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/10/01 14:23:45 by mayyamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token.h"
+#include "../includes/minishell.h"
 
 t_token *ft_tokenizer(char *command);
 

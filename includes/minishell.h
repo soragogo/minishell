@@ -49,6 +49,12 @@ typedef struct	s_info
 void ft_signals(void);
 void waitline();
 
+
+	/* parser */
+// void ft_parser(char *buff);
+t_commandset *ft_parser(char *buff);
+// t_commandset *create_command_pipeline(t_token *tokens, int num_of_commands);
+
 	/* env function */
 t_env	*map_new(void);
 char	*get_env_name(char *ret, char *env);
@@ -88,6 +94,7 @@ int exec_builtin(t_commandset *commands, t_info *info);
 char **join(char const *s1, char const *s2, char **environ);
 void env_join(char *name, char *value, char **environ);
 char *fetch_path(char *file, t_env **map);
+int handle_command(t_commandset *commands, t_info *info);
 
 
 #endif

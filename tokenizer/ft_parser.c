@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekamada <ekamada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mayyamad <mayyamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:38:41 by ekamada           #+#    #+#             */
-/*   Updated: 2023/09/27 21:26:57 by ekamada          ###   ########.fr       */
+/*   Updated: 2023/10/01 14:47:22 by mayyamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void free_parser(t_commandset *commandsets)
 }
 
 
-void ft_parser(char *buff)
+t_commandset *ft_parser(char *buff)
 {
 	t_token *tokens;
 	t_commandset *commandsets;
@@ -182,21 +182,22 @@ void ft_parser(char *buff)
 	commandsets = create_command_pipeline(tokens, num_of_commands);
 	import_command(tokens, commandsets, num_of_commands);
 	import_redirection(tokens, commandsets, num_of_commands);
-	test_commandsets(commandsets, num_of_commands);
+	// test_commandsets(commandsets, num_of_commands);
 	free(tokens);
-	free_parser(commandsets);
+	// free_parser(commandsets);
+	return (commandsets);
 }
 
-#include "token.h"
-#include <stdio.h>
-#include <libc.h>
-int main()
-{
-	char *buff;
-	while (1)
-	{
-		buff = readline("test here> ");
-		ft_parser(buff);
-		free(buff);
-	}
-}
+// #include "token.h"
+// #include <stdio.h>
+// #include <libc.h>
+// int main()
+// {
+// 	char *buff;
+// 	while (1)
+// 	{
+// 		buff = readline("test here> ");
+// 		ft_parser(buff);
+// 		free(buff);
+// 	}
+// }
